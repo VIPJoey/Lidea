@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lidea</title>
+</head>
+<body>
+
+
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="main" style="height:400px"></div>
+<!-- ECharts单文件引入 -->
+<script th:src="@{~/v1/js/echarts.js}"></script>
+<script th:src="@{~/v1/js/jquery-3.4.1.min.js}"></script>
+<script th:src="@{~/v1/js/Nora.js}"></script>
+<script type="text/javascript">
+
+    function bindDataToAccess(resp) {
+
+
+        // 基于准备好的dom，初始化echarts实例
+        let myChart = echarts.init(document.getElementById('main'));
+
+        // 指定图表的配置项和数据
+        let option = {
+            title: {
+                text: '',
+                subtext: ''
+            },
+            tooltip: {
+                trigger: 'axis'
+            },
+            legend: {
+                data: ['']
+            },
+            toolbox: {
+                show: true,
+                feature: {
+                    mark: {show: true},
+                    dataView: {show: true, readOnly: false},
+                    magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
+                    restore: {show: true},
+                    saveAsImage: {show: true}
+                }
+            },
+            calculable: true,
+            xAxis: [
+
+            ],
+            yAxis: [
+                {
+                    type: 'value'
+                }
+            ],
+            series: [
+
+            ]
+        };
+
+        option.title.text = resp.linterface + "." + resp.lmethod;
+
+        xAxis = {
+            type: 'category',
+            boundaryGap: false,
+            data: []
+        };
+        yAxis = {
+            name: '调动次数',
+            type: 'line',
+            smooth: true,
+            itemStyle: {normal: {areaStyle: {type: 'default'}}},
+            data: []
+        };
+
+        // we need to revers it
+        for (let i = resp.data.length - 1; i > 0; i--) {
+            let d = resp.data[i];
+            xAxis.data.push(d.ltime);
+            yAxis.data.push(d.lcount);
+        }
+
+        option.xAxis.push(xAxis);
+        option.series.push(yAxis);
+
+        // 使用刚指定的配置项和数据显示图表。
+        myChart.setOption(option);
+
+    }
+    $(function(){
+
+        let lapp = "cabinet-base-server";
+        let linterface = "com.fcbox.edms.terminal.api.CabinetServiceFacad";
+        let lmethod = "getCabinetInfo";
+        let from = new Date("2019/07/28 00:00:00").getTime();
+        let to = new Date("2019/08/01 00:00:00").getTime();
+        let size = 1000;
+
+        let params = {
+            "lapp": lapp,
+            "linterface": linterface,
+            "lmethod": lmethod,
+            "from": from,
+            "to": to,
+            "size": size
+        };
+
+
+        Nora.Ajax("/lidea/detail/access", params, function (data) {
+
+            if (data.success && null != data.data) {
+
+                bindDataToAccess(data.data);
+
+            } else {
+                // on fail
+                alert(data.msg);
+            }
+
+        }, function (data) {
+            // on error
+            alert("error " + data)
+        });
+
+    });
+</script>
+
+</body>
+</html>

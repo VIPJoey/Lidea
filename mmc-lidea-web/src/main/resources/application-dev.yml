@@ -1,0 +1,17 @@
+server:
+  port: 10001
+spring:
+  thymeleaf:
+    # 开发环境禁用页面缓存
+    cache: false
+    encoding: utf-8
+    mode: HTML5
+hbase:
+  zookeeper:
+    quorum: 10.204.49.54
+    property:
+      clientPort: 2181
+
+zookeeper:
+  znode:
+    parent: /hbase
