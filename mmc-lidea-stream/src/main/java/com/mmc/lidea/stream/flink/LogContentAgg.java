@@ -9,6 +9,7 @@
  */
 package com.mmc.lidea.stream.flink;
 
+import com.mmc.lidea.stream.context.Const;
 import com.mmc.lidea.stream.model.LogContent;
 import org.apache.flink.api.common.functions.AggregateFunction;
 
@@ -16,7 +17,7 @@ import org.apache.flink.api.common.functions.AggregateFunction;
  * @author Joey
  * @date 2019/8/1 19:54
  */
-public class LogContentAgg implements AggregateFunction<LogContent, Long, Long> {
+public class LogContentAgg implements AggregateFunction<LogContent, LogContentAcc, LogContentAcc> {
 
     private static final long serialVersionUID = -8449536961395080960L;
 
@@ -34,8 +35,8 @@ public class LogContentAgg implements AggregateFunction<LogContent, Long, Long> 
      * @return A new accumulator, corresponding to an empty aggregate.
      */
     @Override
-    public Long createAccumulator() {
-        return 0L;
+    public LogContentAcc createAccumulator() {
+        return new LogContentAcc();
     }
 
     /**
@@ -48,8 +49,18 @@ public class LogContentAgg implements AggregateFunction<LogContent, Long, Long> 
      * @param accumulator The accumulator to add the value to
      */
     @Override
-    public Long add(LogContent value, Long accumulator) {
-        return accumulator + 1;
+    public LogContentAcc add(LogContent value, LogContentAcc accumulator) {
+
+        if (null != value) {
+            accumulator.access += 1;
+            accumulator.cost += value.cost;
+            if (value.type == Const.ERROR) {
+                accumulator.exception += 1;
+                accumulator.traceIds.add(value.traceId);
+            }
+        }
+
+        return accumulator;
     }
 
     /**
@@ -59,7 +70,8 @@ public class LogContentAgg implements AggregateFunction<LogContent, Long, Long> 
      * @return The final aggregation result.
      */
     @Override
-    public Long getResult(Long accumulator) {
+    public LogContentAcc getResult(LogContentAcc accumulator) {
+
         return accumulator;
     }
 
@@ -75,7 +87,7 @@ public class LogContentAgg implements AggregateFunction<LogContent, Long, Long> 
      * @return The accumulator with the merged state
      */
     @Override
-    public Long merge(Long a, Long b) {
-        return a + b;
+    public LogContentAcc merge(LogContentAcc a, LogContentAcc b) {
+        return null;
     }
 }

@@ -21,7 +21,7 @@ import org.apache.flink.util.Collector;
  * @author Joey
  * @date 2019/8/1 19:54
  */
-public class LogContentWinFun implements WindowFunction<Long, LogContentCount, Tuple, TimeWindow> {
+public class LogContentWinFun implements WindowFunction<LogContentAcc, LogContentCount, Tuple, TimeWindow> {
 
     private static final long serialVersionUID = 2539721015512513020L;
 
@@ -36,10 +36,10 @@ public class LogContentWinFun implements WindowFunction<Long, LogContentCount, T
      * @throws Exception The function may throw exceptions to fail the program and trigger recovery.
      */
     @Override
-    public void apply(Tuple orgin, TimeWindow window, Iterable<Long> input, Collector<LogContentCount> out) throws Exception {
+    public void apply(Tuple orgin, TimeWindow window, Iterable<LogContentAcc> input, Collector<LogContentCount> out) throws Exception {
 
         Tuple3<String, String, String> tuple = (Tuple3<String, String, String>) orgin;
-        Long count = input.iterator().next();
+        LogContentAcc acc = input.iterator().next();
 
         long begin = window.getEnd();
         String time = TimeUtil.timestampToString(begin);
@@ -49,9 +49,10 @@ public class LogContentWinFun implements WindowFunction<Long, LogContentCount, T
         result.appName = tuple.f0; // 系统
         result.serviceName = tuple.f1; // 接口
         result.methodName = tuple.f2; // 方法
-        result.count = count; // 调用次数
-        result.avg = 0; // 平均响应时间
+        result.count = acc.access; // 调用次数
+        result.avg = acc.cost / acc.access; // 平均响应时间
+        result.exception = acc.exception;
+        result.traceIds = String.join(",", acc.traceIds);
         out.collect(result);
-
     }
 }

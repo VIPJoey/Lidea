@@ -23,11 +23,26 @@ public class LogContentCount {
     public String serviceName;
     public String methodName;
 
+    /**
+     * 调用次数.
+     */
     public long count;
+    /**
+     * 平均响应时间.
+     */
     public int avg;
+    /**
+     * 故障次数.
+     */
+    public int exception;
+    /**
+     * 故障ID.
+     */
+    public String traceIds;
 
     @Override
     public String toString() {
-        return StringUtil.format("{}, {}, {}, {}, {}, {}", time, appName, serviceName, methodName, count, avg);
+        return StringUtil.format("{}, {}, {}, {}, {}, {}, {}, {}",
+                time, appName, serviceName, methodName, count, avg, exception, traceIds);
     }
 }

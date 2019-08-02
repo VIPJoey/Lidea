@@ -9,6 +9,7 @@
  */
 package com.mmc.lidea.stream.flink;
 
+import com.mmc.lidea.util.TimeUtil;
 import org.apache.flink.streaming.api.functions.AssignerWithPunctuatedWatermarks;
 import org.apache.flink.streaming.api.watermark.Watermark;
 
@@ -46,8 +47,8 @@ public class MessageWaterEmitter implements AssignerWithPunctuatedWatermarks<Str
         if (null != lastElement && lastElement.contains("|")) {
 
             String[] parts = lastElement.split("\\|");
-            long timestamp = Long.parseLong(parts[0]);
-//            long timestamp = TimeUtil.stringToLong(parts[0], TimeUtil.yyyyMMddHHmmssSSS);
+//            long timestamp = Long.parseLong(parts[0]);
+            long timestamp = TimeUtil.stringToLong(parts[0], TimeUtil.yyyyMMddHHmmssSSS);
             return new Watermark(timestamp);
         }
         return new Watermark(extractedTimestamp);
@@ -70,8 +71,8 @@ public class MessageWaterEmitter implements AssignerWithPunctuatedWatermarks<Str
     public long extractTimestamp(String element, long previousElementTimestamp) {
         if (element != null && element.contains("|")) {
             String[] parts = element.split("\\|");
-            long timestamp = Long.parseLong(parts[0]);
-//            long timestamp = TimeUtil.stringToLong(parts[0], TimeUtil.yyyyMMddHHmmssSSS);
+//            long timestamp = Long.parseLong(parts[0]);
+            long timestamp = TimeUtil.stringToLong(parts[0], TimeUtil.yyyyMMddHHmmssSSS);
 
             return timestamp;
         }

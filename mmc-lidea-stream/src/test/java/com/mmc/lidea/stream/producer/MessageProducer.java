@@ -44,8 +44,8 @@ public class MessageProducer {
 
             long time = System.currentTimeMillis();
             System.out.println(time);
-            String value = makeMessage(time);
-//            String value = makeMessage(TimeUtil.timestampToString(time, TimeUtil.yyyyMMddHHmmssSSS));
+//            String value = makeMessage(time);
+            String value = makeMessage(TimeUtil.timestampToString(time, TimeUtil.yyyyMMddHHmmssSSS));
 
             System.out.println(value);
 
@@ -57,7 +57,7 @@ public class MessageProducer {
                     }
                 }
             });
-            Thread.sleep(getRandomNumberInRange(1, 10) * 1000);
+            Thread.sleep(getRandomNumberInRange(1, 10) * 100);
         }
         producer.close();
 
