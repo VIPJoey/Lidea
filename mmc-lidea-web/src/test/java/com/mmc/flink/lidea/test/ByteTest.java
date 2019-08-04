@@ -9,7 +9,7 @@
  */
 package com.mmc.flink.lidea.test;
 
-import com.mmc.flink.lidea.util.MD5Util;
+import com.mmc.lidea.util.MD5Util;
 import org.junit.Test;
 
 import java.util.Arrays;

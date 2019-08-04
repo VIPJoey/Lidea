@@ -13,8 +13,8 @@ import com.mmc.flink.lidea.bo.LideaLogBO;
 import com.mmc.flink.lidea.dto.LideaLogReq;
 import com.mmc.flink.lidea.dto.LideaLogResp;
 import com.mmc.flink.lidea.service.LideaLogDAO;
-import com.mmc.flink.lidea.util.RandomUtil;
-import com.mmc.flink.lidea.util.TimeUtil;
+import com.mmc.lidea.util.RandomUtil;
+import com.mmc.lidea.util.TimeUtil;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -42,13 +42,13 @@ public class LideaLogDAOTest {
 
         // 测试插入一条记录
         LideaLogBO bo = new LideaLogBO();
-        bo.setLtime(TimeUtil.dateToString(LocalDateTime.now()));
-        bo.setLapp("cabinet-base-server");
-        bo.setLinterface("com.fcbox.edms.terminal.api.CabinetServiceFacade");
-        bo.setLmethod("getCabinetInfo");
-        bo.setLcount(RandomUtil.getRandomNumberInRange(1, 100));
-        bo.setLavg(RandomUtil.getRandomNumberInRange(100, 999));
-        bo.setLexception(RandomUtil.getRandomNumberInRange(1, 100));
+        bo.setTime(TimeUtil.dateToString(LocalDateTime.now()));
+        bo.setAppName("cabinet-base-server");
+        bo.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
+        bo.setMethodName("getCabinetInfo");
+        bo.setCount(RandomUtil.getRandomNumberInRange(1, 100));
+        bo.setAvg(RandomUtil.getRandomNumberInRange(100, 999));
+        bo.setException(RandomUtil.getRandomNumberInRange(1, 100));
 
         lideaLogDAO.put(bo);
 
@@ -69,12 +69,12 @@ public class LideaLogDAOTest {
 
         LideaLogReq req = new LideaLogReq();
 
-        req.setLapp("cabinet-base-server");
-        req.setLinterface("com.fcbox.edms.terminal.api.CabinetServiceFacade");
-        req.setLmethod("getCabinetInfo");
+        req.setAppName("cabinet-base-server");
+        req.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
+        req.setMethodName("getCabinetInfo");
 
-        req.setFrom(TimeUtil.convertTimeToLong("2019-07-20 00:00:00"));
-        req.setTo(TimeUtil.convertTimeToLong("2019-07-29 23:00:00"));
+        req.setFrom(TimeUtil.stringToLong("2019-07-20 00:00:00"));
+        req.setTo(TimeUtil.stringToLong("2019-07-29 23:00:00"));
 
         LideaLogResp range = lideaLogDAO.scan(req);
         System.out.println("==========================================================================================");

@@ -16,6 +16,8 @@
 
 package com.mmc.flink.lidea.util;
 
+import com.mmc.lidea.util.BytesUtils;
+
 /**
  * @author emeroad
  */

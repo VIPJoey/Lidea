@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.mmc.flink.lidea.util;
+package com.mmc.lidea.util;
 
 
 import java.io.UnsupportedEncodingException;

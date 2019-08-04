@@ -39,7 +39,7 @@ public class MessageProducer {
         props.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
 
         Producer<String, String> producer = new KafkaProducer<>(props);
-        int totalMessageCount = 10;
+        int totalMessageCount = 100;
         for (int i = 0; i < totalMessageCount; i++) {
 
             long time = System.currentTimeMillis();

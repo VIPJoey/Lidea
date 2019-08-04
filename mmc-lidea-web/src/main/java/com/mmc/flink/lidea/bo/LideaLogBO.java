@@ -25,29 +25,33 @@ public class LideaLogBO implements Serializable {
     /**
      * 记录时间.
      */
-    private String ltime;
+    public String time;
     /**
      * 系统名称.
      */
-    private String lapp;
+    public String appName;
     /**
      * 接口名称.
      */
-    private String linterface;
+    public String serviceName;
     /**
      * 方法名称.
      */
-    private String lmethod;
+    public String methodName;
     /**
      * 访问量.
      */
-    private int lcount;
+    public int count;
     /**
      * 平均响应时间(ms).
      */
-    private int lavg;
+    public int avg;
     /**
      * 故障次数.
      */
-    private int lexception;
+    public int exception;
+    /**
+     * 故障ID.
+     */
+    public String traceIds;
 }

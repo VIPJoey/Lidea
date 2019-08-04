@@ -9,7 +9,7 @@
  */
 package com.mmc.flink.lidea.context;
 
-import com.mmc.flink.lidea.util.BytesUtils;
+import com.mmc.lidea.util.BytesUtils;
 
 /**
  * @author Joey
@@ -18,7 +18,7 @@ import com.mmc.flink.lidea.util.BytesUtils;
 public class Const {
 
     /**
-     * lapp + linterface + method最大长度 md5  = 32.
+     * appName + serviceName + method最大长度 md5  = 32.
      */
     public static final int MAX_ROW_KEY_LEN = 32;
     /**

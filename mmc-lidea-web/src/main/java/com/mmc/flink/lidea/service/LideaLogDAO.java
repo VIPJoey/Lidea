@@ -11,10 +11,14 @@ package com.mmc.flink.lidea.service;
 
 import com.mmc.flink.lidea.bo.LideaLogBO;
 import com.mmc.flink.lidea.context.Const;
-import com.mmc.flink.lidea.dto.LideaLogResp;
 import com.mmc.flink.lidea.dto.LideaLogReq;
+import com.mmc.flink.lidea.dto.LideaLogResp;
 import com.mmc.flink.lidea.mapper.LideaLogResultsExtractor;
-import com.mmc.flink.lidea.util.*;
+import com.mmc.lidea.util.BytesUtils;
+import com.mmc.flink.lidea.util.RowKeyUtils;
+import com.mmc.lidea.util.MD5Util;
+import com.mmc.lidea.util.StringUtil;
+import com.mmc.lidea.util.TimeUtil;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -38,8 +42,8 @@ public class LideaLogDAO {
 
     public void put(LideaLogBO bo) {
 
-        String base = StringUtil.format("{}{}{}", bo.getLapp(), bo.getLinterface(), bo.getLmethod());
-        long time = TimeUtil.reverseTimeMillis(TimeUtil.convertTimeToLong(bo.getLtime())); // 时间倒置
+        String base = StringUtil.format("{}{}{}", bo.getAppName(), bo.getServiceName(), bo.getMethodName());
+        long time = TimeUtil.reverseTimeMillis(TimeUtil.stringToLong(bo.getTime())); // 时间倒置
 
         byte[] md5 = Objects.requireNonNull(MD5Util.encrypt(base)).getBytes(); // 32位
         byte[] rowKey = new byte[Const.MAX_ROW_KEY_LEN + Const.FIX_LONG_LENGTH];
@@ -48,13 +52,14 @@ public class LideaLogDAO {
         BytesUtils.writeLong(time, rowKey, Const.MAX_ROW_KEY_LEN);
 
         Put put = new Put(rowKey);
-        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("ltime"), BytesUtils.toBytes(bo.getLtime()));
-        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("lapp"), BytesUtils.toBytes(bo.getLapp()));
-        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("linterface"), BytesUtils.toBytes(bo.getLinterface()));
-        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("lmethod"), BytesUtils.toBytes(bo.getLmethod()));
-        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("lcount"), Bytes.toBytes(bo.getLcount()));
-        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("lavg"), Bytes.toBytes(bo.getLavg()));
-        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("lexception"), Bytes.toBytes(bo.getLexception()));
+        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("time"), BytesUtils.toBytes(bo.time));
+        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("appName"), BytesUtils.toBytes(bo.appName));
+        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("serviceName"), BytesUtils.toBytes(bo.serviceName));
+        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("methodName"), BytesUtils.toBytes(bo.methodName));
+        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("count"), Bytes.toBytes(bo.count));
+        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("avg"), Bytes.toBytes(bo.avg));
+        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("exception"), Bytes.toBytes(bo.exception));
+        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("traceIds"), Bytes.toBytes(bo.traceIds));
 
         hbaseTemplate.execute(Const.LIDEA_LOG_TABLE, (htable) -> {
 
@@ -73,9 +78,9 @@ public class LideaLogDAO {
 
         LideaLogResp range = new LideaLogResp();
         range.setData(list);
-        range.setLapp(req.getLapp());
-        range.setLinterface(req.getLinterface());
-        range.setLmethod(req.getLmethod());
+        range.setAppName(req.getAppName());
+        range.setServiceName(req.getServiceName());
+        range.setMethodName(req.getMethodName());
 
         return range;
     }
@@ -85,7 +90,7 @@ public class LideaLogDAO {
         Scan scan = new Scan();
         scan.setCaching(60 * 24);
 
-        String base = StringUtil.format("{}{}{}", bo.getLapp(), bo.getLinterface(), bo.getLmethod());
+        String base = StringUtil.format("{}{}{}", bo.getAppName(), bo.getServiceName(), bo.getMethodName());
         byte[] fixedBytes = Objects.requireNonNull(MD5Util.encrypt(base)).getBytes(); // 32位
 
         byte[] traceIndexStartKey = getApplicationTraceIndexRowKey(fixedBytes, bo.getFrom());

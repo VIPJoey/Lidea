@@ -26,19 +26,15 @@ public class LideaLogReq {
     /**
      * 系统名称.
      */
-    private String lapp;
+    private String appName;
     /**
      * 接口名称.
      */
-    private String linterface;
+    private String serviceName;
     /**
      * 方法名称.
      */
-    private String lmethod;
-    /**
-     * 访问量.
-     */
-    private int lcount;
+    private String methodName;
 
 
 }

@@ -11,7 +11,7 @@ package com.mmc.flink.lidea.mapper;
 
 import com.mmc.flink.lidea.bo.LideaLogBO;
 import com.mmc.flink.lidea.context.Const;
-import com.mmc.flink.lidea.util.BytesUtils;
+import com.mmc.lidea.util.BytesUtils;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.apache.hadoop.hbase.util.Bytes;
@@ -41,13 +41,14 @@ public class LideaLogResultsExtractor implements ResultsExtractor<List<LideaLogB
         List<LideaLogBO> rs = new ArrayList<>();
         for (Result result : results) {
             LideaLogBO bo = new LideaLogBO();
-            bo.setLtime(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("ltime"))));
-            bo.setLapp(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("lapp"))));
-            bo.setLinterface(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("linterface"))));
-            bo.setLmethod(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("lmethod"))));
-            bo.setLcount(Bytes.toInt(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("lcount"))));
-            bo.setLavg(Bytes.toInt(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("lavg"))));
-            bo.setLexception(Bytes.toInt(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("lexception"))));
+            bo.setTime(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("time"))));
+            bo.setAppName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("appName"))));
+            bo.setServiceName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("serviceName"))));
+            bo.setMethodName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("methodName"))));
+            bo.setCount(Bytes.toInt(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("count"))));
+            bo.setAvg(Bytes.toInt(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("avg"))));
+            bo.setException(Bytes.toInt(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("exception"))));
+            bo.setTraceIds(Bytes.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("traceIds"))));
             rs.add(bo);
         }
 

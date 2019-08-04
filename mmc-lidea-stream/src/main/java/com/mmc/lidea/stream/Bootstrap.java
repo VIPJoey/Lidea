@@ -14,12 +14,14 @@ import com.mmc.lidea.stream.flink.*;
 import com.mmc.lidea.stream.model.LogContent;
 import com.mmc.lidea.stream.model.LogContentCount;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
+import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.TimeCharacteristic;
 import org.apache.flink.streaming.api.datastream.DataStream;
 import org.apache.flink.streaming.api.environment.StreamExecutionEnvironment;
 import org.apache.flink.streaming.api.windowing.time.Time;
 import org.apache.flink.streaming.connectors.kafka.FlinkKafkaConsumer010;
 
+import java.io.InputStream;
 import java.util.Properties;
 
 /**
@@ -34,6 +36,11 @@ public class Bootstrap {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.enableCheckpointing(5000); // 非常关键，一定要设置启动检查点！！
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
+
+        String confName = "hbase.properties";
+        InputStream in = Bootstrap.class.getClassLoader().getResourceAsStream(confName);
+        ParameterTool parameterTool = ParameterTool.fromPropertiesFile(in);
+        env.getConfig().setGlobalJobParameters(parameterTool);
 
         Properties props = new Properties();
         props.setProperty("bootstrap.servers", "localhost:9092");
@@ -54,8 +61,8 @@ public class Bootstrap {
                 .timeWindow(Time.seconds(5))
                 .aggregate(new LogContentAgg(), new LogContentWinFun());
 
-        keyStream.print().setParallelism(1);
-
+        keyStream.addSink(new HbaseSinkFun());
+//        keyStream.print().setParallelism(1);
 
         env.execute("Flink-Kafka demo");
 
