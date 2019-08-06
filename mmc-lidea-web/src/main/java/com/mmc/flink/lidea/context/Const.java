@@ -41,4 +41,8 @@ public class Const {
      * LideaApp表.
      */
     public static final String LIDEA_APP_TABLE = "LideaApp";
+    /**
+     * LideaMethod表.
+     */
+    public static final String LIDEA_METHOD_TABLE = "LideaMethod";
 }

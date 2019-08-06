@@ -66,7 +66,7 @@ public class LogAppJob {
         addBaseJob(mapStream);
         // keyStream.print().setParallelism(1); // 打印调试
 
-        env.execute("Record the exception detail.");
+        env.execute("Record the app name.");
 
     }
 
