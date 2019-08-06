@@ -3,27 +3,72 @@
 <head>
     <meta charset="UTF-8">
     <title>Lidea</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" th:href="@{~/v1/css/basictable.css}"/>
+    <link rel="stylesheet" th:href="@{~/v1/css/style.css}"/>
+
 </head>
 <body>
 
 
 <div>
+    <div style="display: none">
+        <div id="txtFrom" th:utext="${from}"></div>
+        <div id="txtTo" th:utext="${to}"></div>
+        <div id="txtSize" th:utext="${size}"></div>
+        <div id="txtReq" th:text="${req}"></div>
+    </div>
 
-    <div id="txtFrom" th:utext="${from}"></div>
-    <div id="txtTo" th:utext="${to}"></div>
-    <div id="txtSize" th:utext="${size}"></div>
-    <div id="txtReq" th:text="${req}"></div>
+    <table id="tbList">
+        <thead>
+        <tr>
+            <th>Time</th>
+            <th>ServiceName</th>
+            <th>Method</th>
+            <th>TraceId</th>
+            <th>Local</th>
+            <th>Remote</th>
+            <th>Cost</th>
+            <th>Arg</th>
+            <th>Resp</th>
+            <th>Msg</th>
+            <th>Custom</th>
+        </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+    <div style="display: none">
+        <table>
+            <tr id="tplRow">
+                <td>{}</td>
+                <td>{}</td>
+                <td>{}</td>
+                <td>{}</td>
+                <td>{}</td>
+                <td>{}</td>
+                <td>{}</td>
+                <td>{}</td>
+                <td>{}</td>
+                <td>{}</td>
+                <td>{}</td>
+            </tr>
+        </table>
+    </div>
 
 </div>
 <!-- ECharts单文件引入 -->
 <script th:src="@{~/v1/js/echarts.js}"></script>
 <script th:src="@{~/v1/js/jquery-3.4.1.min.js}"></script>
+<script th:src="@{~/v1/js/jquery.basictable.min.js}"></script>
 <script th:src="@{~/v1/js/Nora.js}"></script>
 <script th:src="@{~/v1/js/errorList.js}"></script>
 <script type="text/javascript">
 
 
-    $(function(){
+    $(function () {
 
         let str = $("#txtReq").html();
         let json = JSON.parse(str);
@@ -31,9 +76,9 @@
         let appName = json.appName;
         let serviceName = json.serviceName;
         let methodName = json.methodName;
-        let from = $("#txtFrom").html();
-        let to = $("#txtTo").html();
-        let size = 100;
+        let from = json.from;
+        let to = json.to;
+        let size = json.size;
 
         let params = {
             "appName": appName,
@@ -43,7 +88,6 @@
             "to": to,
             "size": size
         };
-
 
 
         Nora.Ajax("/lidea/detail/error", params, function (data) {

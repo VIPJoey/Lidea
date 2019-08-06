@@ -63,8 +63,8 @@ public class LideaLogResultsExtractor implements ResultsExtractor<List<LideaLogB
 
     public static LideaLogErrorDetailBO mapErrorDetail(Result result) {
         LideaLogErrorDetailBO bo = new LideaLogErrorDetailBO();
+        bo.setTraceId(BytesUtils.toString(result.getRow()));
         bo.setTime(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("time"))));
-        bo.setTraceId(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("traceId"))));
         bo.setLocalIp(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("localIp"))));
         bo.setRemoteIp(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("remoteIp"))));
         bo.setAppName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("appName"))));
