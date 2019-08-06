@@ -1,0 +1,3 @@
+create 'LideaLog', { NAME => 'S', TTL => 86400}
+
+create 'LideaLogDetail', { NAME => 'S', TTL => 86400}

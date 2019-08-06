@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lidea</title>
+</head>
+<body>
+
+
+<div>
+
+    <div id="txtFrom" th:utext="${from}"></div>
+    <div id="txtTo" th:utext="${to}"></div>
+    <div id="txtSize" th:utext="${size}"></div>
+    <div id="txtReq" th:text="${req}"></div>
+
+</div>
+<!-- ECharts单文件引入 -->
+<script th:src="@{~/v1/js/echarts.js}"></script>
+<script th:src="@{~/v1/js/jquery-3.4.1.min.js}"></script>
+<script th:src="@{~/v1/js/Nora.js}"></script>
+<script th:src="@{~/v1/js/errorList.js}"></script>
+<script type="text/javascript">
+
+
+    $(function(){
+
+        let str = $("#txtReq").html();
+        let json = JSON.parse(str);
+
+        let appName = json.appName;
+        let serviceName = json.serviceName;
+        let methodName = json.methodName;
+        let from = $("#txtFrom").html();
+        let to = $("#txtTo").html();
+        let size = 100;
+
+        let params = {
+            "appName": appName,
+            "serviceName": serviceName,
+            "methodName": methodName,
+            "from": from,
+            "to": to,
+            "size": size
+        };
+
+
+
+        Nora.Ajax("/lidea/detail/error", params, function (data) {
+
+            if (data.success && null != data.data) {
+
+                bindDataToException(data.data);
+
+            } else {
+                // on fail
+                alert(data.msg);
+            }
+
+        }, function (data) {
+            // on error
+            alert("error " + data)
+        });
+
+    });
+</script>
+
+</body>
+</html>

@@ -82,7 +82,7 @@ public class MessageProducer {
         // time|traceId|type|localIp|remoteIP|appName|serviceName|methodName|args|response|cost|msg|customMsg
         String tpl = StringUtil.format("{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}|{}",
                 time, // 时间
-                UUID.randomUUID().toString(),
+                UUID.randomUUID().toString().replace("-", ""),
                 getRandomNumberInRange(1, 3), // 1:成功 2：异常
                 "10.204.240.74",
                 "10.204.240.74",
@@ -105,11 +105,13 @@ public class MessageProducer {
     }
 
     private static String getServerName() {
-        return servers[getRandomNumberInRange(0, 3)];
+        return servers[getRandomNumberInRange(0, 0)];
+//        return servers[getRandomNumberInRange(0, 3)];
     }
 
     private static String getInterFaceName() {
-        return interfaces[getRandomNumberInRange(0, 3)];
+        return interfaces[getRandomNumberInRange(0, 0)];
+//        return interfaces[getRandomNumberInRange(0, 3)];
     }
 
 

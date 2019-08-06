@@ -33,4 +33,8 @@ public class Const {
      * LideaLog表.
      */
     public static final String LIDEA_LOG_TABLE = "LideaLog";
+    /**
+     * LideaLogDetail表.
+     */
+    public static final String LIDEA_LOG_DEATIL_TABLE = "LideaLogDetail";
 }

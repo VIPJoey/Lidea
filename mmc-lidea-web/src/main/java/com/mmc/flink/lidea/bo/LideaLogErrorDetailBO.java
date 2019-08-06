@@ -18,40 +18,21 @@ import java.io.Serializable;
  * @date 2019/7/26 17:57
  */
 @Data
-public class LideaLogBO implements Serializable {
+public class LideaLogErrorDetailBO implements Serializable {
 
     private static final long serialVersionUID = 6673495081894666234L;
 
-    /**
-     * 记录时间.
-     */
     public String time;
-    /**
-     * 系统名称.
-     */
+    public String traceId;
+    public int type;
+    public String localIp;
+    public String remoteIp;
     public String appName;
-    /**
-     * 接口名称.
-     */
     public String serviceName;
-    /**
-     * 方法名称.
-     */
     public String methodName;
-    /**
-     * 访问量.
-     */
-    public long count;
-    /**
-     * 平均响应时间(ms).
-     */
-    public int avg;
-    /**
-     * 故障次数.
-     */
-    public int exception;
-    /**
-     * 故障ID.
-     */
-    public String traceIds;
+    public String args;
+    public String response;
+    public int cost;
+    public String msg;
+    public String customMsg;
 }

@@ -7,8 +7,9 @@
  * you entered into with Founder.
  *
  */
-package com.mmc.flink.lidea.service;
+package com.mmc.flink.lidea.dao;
 
+import com.alibaba.fastjson.JSON;
 import com.mmc.flink.lidea.bo.LideaLogBO;
 import com.mmc.flink.lidea.context.Const;
 import com.mmc.flink.lidea.dto.LideaLogReq;
@@ -19,7 +20,10 @@ import com.mmc.flink.lidea.util.RowKeyUtils;
 import com.mmc.lidea.util.MD5Util;
 import com.mmc.lidea.util.StringUtil;
 import com.mmc.lidea.util.TimeUtil;
+import lombok.extern.slf4j.Slf4j;
+import org.apache.hadoop.hbase.client.Get;
 import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.Scan;
 import org.apache.hadoop.hbase.util.Bytes;
 import org.springframework.data.hadoop.hbase.HbaseTemplate;
@@ -27,6 +31,8 @@ import org.springframework.data.hadoop.hbase.ResultsExtractor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -34,13 +40,14 @@ import java.util.Objects;
  * @author Joey
  * @date 2019/7/26 17:44
  */
+@Slf4j
 @Service("lideaLogDAO")
 public class LideaLogDAO {
 
     @Resource
     private HbaseTemplate hbaseTemplate;
 
-    public void put(LideaLogBO bo) {
+    private byte[] makeRowKey(LideaLogBO bo) {
 
         String base = StringUtil.format("{}{}{}", bo.getAppName(), bo.getServiceName(), bo.getMethodName());
         long time = TimeUtil.reverseTimeMillis(TimeUtil.stringToLong(bo.getTime())); // 时间倒置
@@ -50,8 +57,12 @@ public class LideaLogDAO {
 
         BytesUtils.writeBytes(rowKey, 0, md5);
         BytesUtils.writeLong(time, rowKey, Const.MAX_ROW_KEY_LEN);
+        return rowKey;
+    }
 
-        Put put = new Put(rowKey);
+    public void put(LideaLogBO bo) {
+
+        Put put = new Put(makeRowKey(bo));
         put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("time"), BytesUtils.toBytes(bo.time));
         put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("appName"), BytesUtils.toBytes(bo.appName));
         put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("serviceName"), BytesUtils.toBytes(bo.serviceName));
@@ -76,13 +87,13 @@ public class LideaLogDAO {
         ResultsExtractor<List<LideaLogBO>> extractor = new LideaLogResultsExtractor();
         List<LideaLogBO> list = hbaseTemplate.find(Const.LIDEA_LOG_TABLE, scan, extractor);
 
-        LideaLogResp range = new LideaLogResp();
-        range.setData(list);
-        range.setAppName(req.getAppName());
-        range.setServiceName(req.getServiceName());
-        range.setMethodName(req.getMethodName());
+        LideaLogResp resp = new LideaLogResp();
+        resp.setData(list);
+        resp.setAppName(req.getAppName());
+        resp.setServiceName(req.getServiceName());
+        resp.setMethodName(req.getMethodName());
 
-        return range;
+        return resp;
     }
 
     private Scan createScan(LideaLogReq bo) {
@@ -113,5 +124,34 @@ public class LideaLogDAO {
 
         return RowKeyUtils.concatFixedByteAndLong(fixedBytes, Const.MAX_ROW_KEY_LEN, TimeUtil.reverseTimeMillis(timestamp));
 
+    }
+
+    public LideaLogResp get(LideaLogReq req) {
+
+        log.info("req : {}", JSON.toJSONString(req));
+
+        LideaLogResp resp = new LideaLogResp();
+        resp.setAppName(req.getAppName());
+        resp.setServiceName(req.getServiceName());
+        resp.setMethodName(req.getMethodName());
+
+        List<LideaLogBO> data = hbaseTemplate.execute(Const.LIDEA_LOG_TABLE, (table) -> {
+
+            String base = StringUtil.format("{}{}{}", req.getAppName(), req.getServiceName(), req.getMethodName());
+            byte[] fixedBytes = Objects.requireNonNull(MD5Util.encrypt(base)).getBytes(); // 32位
+
+            byte[] rowKey = getApplicationTraceIndexRowKey(fixedBytes, req.getFrom());
+            Get get = new Get(rowKey);
+
+            Result result = table.get(get);
+
+            LideaLogBO bo = LideaLogResultsExtractor.map(result);
+
+            return Collections.singletonList(bo);
+        });
+
+        resp.setData(data);
+
+        return resp;
     }
 }

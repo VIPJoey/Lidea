@@ -7,12 +7,12 @@
  * you entered into with Founder.
  *
  */
-package com.mmc.flink.lidea.test;
+package com.mmc.flink.lidea.dao;
 
+import com.alibaba.fastjson.JSON;
 import com.mmc.flink.lidea.bo.LideaLogBO;
 import com.mmc.flink.lidea.dto.LideaLogReq;
 import com.mmc.flink.lidea.dto.LideaLogResp;
-import com.mmc.flink.lidea.service.LideaLogDAO;
 import com.mmc.lidea.util.RandomUtil;
 import com.mmc.lidea.util.TimeUtil;
 import org.junit.FixMethodOrder;
@@ -24,6 +24,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * @author Joey
@@ -49,19 +50,12 @@ public class LideaLogDAOTest {
         bo.setCount(RandomUtil.getRandomNumberInRange(1, 100));
         bo.setAvg(RandomUtil.getRandomNumberInRange(100, 999));
         bo.setException(RandomUtil.getRandomNumberInRange(1, 100));
+        bo.setTraceIds(UUID.randomUUID().toString().replace("-", ""));
 
         lideaLogDAO.put(bo);
 
-    }
-
-    @Test
-    public void testPut1() throws InterruptedException {
-
-        for (int i = 0; i < 100; i++) {
-            testPut();
-            Thread.sleep(RandomUtil.getRandomNumberInRange(1, 10) * 1000);
-        }
-
+        System.out.println("==========================================================================================");
+        System.out.println(JSON.toJSONString(bo));
     }
 
     @Test
@@ -74,11 +68,49 @@ public class LideaLogDAOTest {
         req.setMethodName("getCabinetInfo");
 
         req.setFrom(TimeUtil.stringToLong("2019-07-20 00:00:00"));
-        req.setTo(TimeUtil.stringToLong("2019-07-29 23:00:00"));
+        req.setTo(TimeUtil.stringToLong("2019-08-29 23:00:00"));
 
-        LideaLogResp range = lideaLogDAO.scan(req);
+        LideaLogResp resp = lideaLogDAO.scan(req);
         System.out.println("==========================================================================================");
-        System.out.println(range.getData());
+        System.out.println(JSON.toJSONString(resp));
+    }
+
+    @Test
+    public void testGet() {
+
+        LideaLogReq req = new LideaLogReq();
+
+        req.setAppName("cabinet-base-server");
+        req.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
+        req.setMethodName("getCabinetInfo");
+
+        req.setFrom(TimeUtil.stringToLong("2019-08-05 14:26:39"));
+        req.setTo(TimeUtil.stringToLong("2019-08-05 14:26:39"));
+
+        LideaLogResp resp = lideaLogDAO.get(req);
+        System.out.println("==========================================================================================");
+        System.out.println(JSON.toJSONString(resp));
+
+    }
+
+    @Test
+    public void testGet1() {
+
+        LideaLogReq req = new LideaLogReq();
+
+        req.setAppName("cabinet-base-server");
+        req.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
+        req.setMethodName("getCabinetInfo");
+
+        System.out.println(TimeUtil.timestampToString(1565012550000L, TimeUtil.yyyyMMddHHmmssSSS));
+
+        req.setFrom(1565012550000L);
+        req.setTo(1565012550000L);
+
+        LideaLogResp resp = lideaLogDAO.get(req);
+        System.out.println("==========================================================================================");
+        System.out.println(JSON.toJSONString(resp));
+
     }
 
 }

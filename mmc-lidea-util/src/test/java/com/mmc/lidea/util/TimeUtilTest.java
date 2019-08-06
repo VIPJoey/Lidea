@@ -19,4 +19,19 @@ public class TimeUtilTest {
 
     }
 
+    @Test
+    public void testEqual() {
+
+
+        long timestamp = 1565057370000L;
+
+        String timestr = "2019-08-06 10:09:30";
+
+        long ntime = TimeUtil.stringToLong(timestr);
+        Assert.assertEquals(timestamp, ntime);
+
+        String ntimestr = TimeUtil.timestampToString(timestamp);
+        Assert.assertEquals(timestr, ntimestr);
+    }
+
 }

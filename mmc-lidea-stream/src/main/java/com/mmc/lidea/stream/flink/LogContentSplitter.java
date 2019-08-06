@@ -10,6 +10,7 @@
 package com.mmc.lidea.stream.flink;
 
 import com.mmc.lidea.stream.model.LogContent;
+import com.mmc.lidea.stream.util.LogContentUtil;
 import org.apache.flink.api.common.functions.MapFunction;
 
 /**
@@ -33,26 +34,8 @@ public class LogContentSplitter implements MapFunction<String, LogContent> {
     @Override
     public LogContent map(String element) throws Exception {
 
-        if (element != null && element.contains("|")) {
-            String[] parts = element.split("\\|");
-
-            int i = 0;
-            LogContent content = new LogContent();
-            content.time = parts[i++];
-            content.traceId = parts[i++];
-            content.type = Integer.valueOf(parts[i++]);
-            content.localIp = parts[i++];
-            content.remoteIp = parts[i++];
-            content.appName = parts[i++];
-            content.serviceName = parts[i++];
-            content.methodName = parts[i++];
-            content.args = parts[i++];
-            content.response = parts[i++];
-            content.cost = Integer.valueOf(parts[i++]);
-            content.msg = parts[i++];
-            content.customMsg = parts[i++];
-            return content;
-        }
-        return null;
+        return LogContentUtil.valueOf(element);
     }
+
+
 }

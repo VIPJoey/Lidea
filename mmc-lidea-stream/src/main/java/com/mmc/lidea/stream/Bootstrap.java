@@ -55,17 +55,22 @@ public class Bootstrap {
                 .filter(new LogContentFilter())
                 .map(new LogContentSplitter());
 
+        // 统计调用次数、平均响应时间、故障次数
+        addBaseJob(mapStream);
+        // keyStream.print().setParallelism(1); 打印调试
+
+        env.execute("Calc access, avg time, exception count.");
+
+    }
+
+    private static void addBaseJob(DataStream<LogContent> mapStream) {
         // 统计调用次数
         DataStream<LogContentCount> keyStream = mapStream
                 .keyBy("appName", "serviceName", "methodName")
-                .timeWindow(Time.seconds(5))
+                .timeWindow(Time.seconds(10))
                 .aggregate(new LogContentAgg(), new LogContentWinFun());
 
         keyStream.addSink(new HbaseSinkFun());
-//        keyStream.print().setParallelism(1);
-
-        env.execute("Flink-Kafka demo");
-
     }
 
 

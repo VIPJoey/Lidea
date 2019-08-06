@@ -18,7 +18,8 @@ import java.security.MessageDigest;
  */
 public class MD5Util {
 
-    public final static String encrypt(String pwd) {
+    public static String encrypt(String pwd) {
+
         //用于加密的字符
         char md5String[] = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
                 'A', 'B', 'C', 'D', 'E', 'F' };
@@ -39,8 +40,7 @@ public class MD5Util {
             int j = md.length;
             char str[] = new char[j * 2];
             int k = 0;
-            for (int i = 0; i < j; i++) {   //  i = 0
-                byte byte0 = md[i];  //95
+            for (byte byte0 : md) {   //  i = 0
                 str[k++] = md5String[byte0 >>> 4 & 0xf];    //    5
                 str[k++] = md5String[byte0 & 0xf];   //   F
             }
@@ -49,6 +49,7 @@ public class MD5Util {
             return new String(str);
 
         } catch (Exception e) {
+            e.printStackTrace();
             return null;
         }
     }

@@ -10,6 +10,7 @@
 package com.mmc.flink.lidea.mapper;
 
 import com.mmc.flink.lidea.bo.LideaLogBO;
+import com.mmc.flink.lidea.bo.LideaLogErrorDetailBO;
 import com.mmc.flink.lidea.context.Const;
 import com.mmc.lidea.util.BytesUtils;
 import org.apache.hadoop.hbase.client.Result;
@@ -40,18 +41,40 @@ public class LideaLogResultsExtractor implements ResultsExtractor<List<LideaLogB
 
         List<LideaLogBO> rs = new ArrayList<>();
         for (Result result : results) {
-            LideaLogBO bo = new LideaLogBO();
-            bo.setTime(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("time"))));
-            bo.setAppName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("appName"))));
-            bo.setServiceName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("serviceName"))));
-            bo.setMethodName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("methodName"))));
-            bo.setCount(Bytes.toInt(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("count"))));
-            bo.setAvg(Bytes.toInt(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("avg"))));
-            bo.setException(Bytes.toInt(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("exception"))));
-            bo.setTraceIds(Bytes.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("traceIds"))));
+            LideaLogBO bo = map(result);
             rs.add(bo);
         }
 
         return rs;
+    }
+
+    public static LideaLogBO map(Result result) {
+        LideaLogBO bo = new LideaLogBO();
+        bo.setTime(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("time"))));
+        bo.setAppName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("appName"))));
+        bo.setServiceName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("serviceName"))));
+        bo.setMethodName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("methodName"))));
+        bo.setCount(Bytes.toLong(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("count"))));
+        bo.setAvg(Bytes.toInt(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("avg"))));
+        bo.setException(Bytes.toInt(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("exception"))));
+        bo.setTraceIds(Bytes.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("traceIds"))));
+        return bo;
+    }
+
+    public static LideaLogErrorDetailBO mapErrorDetail(Result result) {
+        LideaLogErrorDetailBO bo = new LideaLogErrorDetailBO();
+        bo.setTime(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("time"))));
+        bo.setTraceId(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("traceId"))));
+        bo.setLocalIp(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("localIp"))));
+        bo.setRemoteIp(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("remoteIp"))));
+        bo.setAppName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("appName"))));
+        bo.setServiceName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("serviceName"))));
+        bo.setMethodName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("methodName"))));
+        bo.setArgs(Bytes.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("args"))));
+        bo.setResponse(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("response"))));
+        bo.setCost(Bytes.toInt(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("cost"))));
+        bo.setMsg(Bytes.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("msg"))));
+        bo.setCustomMsg(Bytes.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("customMsg"))));
+        return bo;
     }
 }

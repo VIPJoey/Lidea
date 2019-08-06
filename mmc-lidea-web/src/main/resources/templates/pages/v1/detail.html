@@ -10,232 +10,33 @@
 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
 <div id="divAccess" style="height:400px"></div>
 <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
-<div id="divAvg" style="height:400px"></div>
-<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
 <div id="divException" style="height:400px"></div>
+<!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+<div id="divAvg" style="height:400px"></div>
+
+<div style="display: none">
+    <form id="frmErrorList" action="/lidea/errorList" target="_blank" method="POST">
+        <label for="txtAppName"></label><input id="txtAppName" name="appName"/>
+        <label for="txtServiceName"></label><input id="txtServiceName" name="serviceName"/>
+        <label for="txtMethodName"></label><input id="txtMethodName" name="methodName"/>
+        <label for="txtFrom"></label><input id="txtFrom" name="from"/>
+        <label for="txtTo"></label><input id="txtTo" name="to"/>
+        <label for="txtSize"></label><input id="txtSize" name="size"/>
+    </form>
+</div>
+
 <!-- ECharts单文件引入 -->
 <script th:src="@{~/v1/js/echarts.js}"></script>
 <script th:src="@{~/v1/js/jquery-3.4.1.min.js}"></script>
 <script th:src="@{~/v1/js/Nora.js}"></script>
+<script th:src="@{~/v1/js/detail.js}"></script>
 <script type="text/javascript">
 
-    function bindDataToAccess(resp) {
 
-
-        // 基于准备好的dom，初始化echarts实例
-        let myChart = echarts.init(document.getElementById('divAccess'));
-
-        // 指定图表的配置项和数据
-        let option = {
-            title: {
-                text: '',
-                subtext: ''
-            },
-            tooltip: {
-                trigger: 'axis'
-            },
-            legend: {
-                data: ['']
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    mark: {show: true},
-                    dataView: {show: true, readOnly: false},
-                    magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
-                    restore: {show: true},
-                    saveAsImage: {show: true}
-                }
-            },
-            calculable: true,
-            xAxis: [
-
-            ],
-            yAxis: [
-                {
-                    type: 'value'
-                }
-            ],
-            series: [
-
-            ]
-        };
-
-        option.title.text = resp.serviceName + "." + resp.methodName;
-
-        xAxis = {
-            type: 'category',
-            boundaryGap: false,
-            data: []
-        };
-        yAxis = {
-            name: '调动次数',
-            type: 'line',
-            smooth: true,
-            itemStyle: {normal: {areaStyle: {type: 'default'}}},
-            data: []
-        };
-
-        // we need to revers it
-        for (let i = resp.data.length - 1; i > 0; i--) {
-            let d = resp.data[i];
-            xAxis.data.push(d.time);
-            yAxis.data.push(d.count);
-        }
-
-        option.xAxis.push(xAxis);
-        option.series.push(yAxis);
-
-        // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
-
-    }
-    function bindDataToAvg(resp) {
-
-
-        // 基于准备好的dom，初始化echarts实例
-        let myChart = echarts.init(document.getElementById('divAvg'));
-
-        // 指定图表的配置项和数据
-        let option = {
-            title: {
-                text: '',
-                subtext: ''
-            },
-            tooltip: {
-                trigger: 'axis'
-            },
-            legend: {
-                data: ['']
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    mark: {show: true},
-                    dataView: {show: true, readOnly: false},
-                    magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
-                    restore: {show: true},
-                    saveAsImage: {show: true}
-                }
-            },
-            calculable: true,
-            xAxis: [
-
-            ],
-            yAxis: [
-                {
-                    type: 'value'
-                }
-            ],
-            series: [
-
-            ]
-        };
-
-        option.title.text = resp.serviceName + "." + resp.methodName;
-
-        xAxis = {
-            type: 'category',
-            boundaryGap: false,
-            data: []
-        };
-        yAxis = {
-            name: '调动次数',
-            type: 'line',
-            smooth: true,
-            itemStyle: {normal: {areaStyle: {type: 'default'}}},
-            data: []
-        };
-
-        // we need to revers it
-        for (let i = resp.data.length - 1; i > 0; i--) {
-            let d = resp.data[i];
-            xAxis.data.push(d.time);
-            yAxis.data.push(d.avg);
-        }
-
-        option.xAxis.push(xAxis);
-        option.series.push(yAxis);
-
-        // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
-
-    }
-    function bindDataToException(resp) {
-
-
-        // 基于准备好的dom，初始化echarts实例
-        let myChart = echarts.init(document.getElementById('divException'));
-
-        // 指定图表的配置项和数据
-        let option = {
-            title: {
-                text: '',
-                subtext: '业务异常'
-            },
-            tooltip: {
-                trigger: 'axis'
-            },
-            legend: {
-                data: ['']
-            },
-            toolbox: {
-                show: true,
-                feature: {
-                    mark: {show: true},
-                    dataView: {show: true, readOnly: false},
-                    magicType: {show: true, type: ['line', 'bar', 'stack', 'tiled']},
-                    restore: {show: true},
-                    saveAsImage: {show: true}
-                }
-            },
-            calculable: true,
-            xAxis: [
-
-            ],
-            yAxis: [
-                {
-                    type: 'value'
-                }
-            ],
-            series: [
-
-            ]
-        };
-
-        option.title.text = resp.serviceName + "." + resp.methodName;
-
-        xAxis = {
-            type: 'category',
-            boundaryGap: false,
-            data: []
-        };
-        yAxis = {
-            name: '故障次数',
-            type: 'line',
-            smooth: true,
-            itemStyle: {normal: {areaStyle: {type: 'default'}}},
-            data: []
-        };
-
-        // we need to revers it
-        for (let i = resp.data.length - 1; i > 0; i--) {
-            let d = resp.data[i];
-            xAxis.data.push(d.time);
-            yAxis.data.push(d.exception);
-        }
-
-        option.xAxis.push(xAxis);
-        option.series.push(yAxis);
-
-        // 使用刚指定的配置项和数据显示图表。
-        myChart.setOption(option);
-
-    }
     $(function(){
 
         let appName = "cabinet-base-server";
-        let serviceName = "com.fcbox.edms.terminal.api.CabinetServiceFacad";
+        let serviceName = "com.fcbox.edms.terminal.api.CabinetServiceFacade";
         let methodName = "getCabinetInfo";
         let from = new Date("2019/07/28 00:00:00").getTime();
         let to = new Date("2019/08/31 00:00:00").getTime();
