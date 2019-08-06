@@ -7,12 +7,15 @@
  * you entered into with Founder.
  *
  */
-package com.mmc.lidea.stream;
+package com.mmc.lidea.stream.job;
 
+import com.mmc.lidea.stream.Bootstrap;
 import com.mmc.lidea.stream.context.KafkaConst;
-import com.mmc.lidea.stream.flink.*;
+import com.mmc.lidea.stream.flink.LideaAppSinkFun;
+import com.mmc.lidea.stream.flink.LogContentErrorFilter;
+import com.mmc.lidea.stream.flink.LogContentSplitter;
+import com.mmc.lidea.stream.flink.MessageWaterEmitter;
 import com.mmc.lidea.stream.model.LogContent;
-import com.mmc.lidea.stream.model.LogContentCount;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.TimeCharacteristic;
@@ -26,12 +29,13 @@ import java.util.Properties;
 
 /**
  * @author Joey
- * @date 2019/7/14 14:56
+ * @date 2019/8/4 16:39
  */
-public class Bootstrap {
+public class LogAppJob {
 
 
     public static void main(String[] args) throws Exception {
+
 
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.enableCheckpointing(5000); // 非常关键，一定要设置启动检查点！！
@@ -44,34 +48,36 @@ public class Bootstrap {
 
         Properties props = new Properties();
         props.setProperty("bootstrap.servers", "localhost:9092");
-        props.setProperty("group.id", "flink-group");
+        props.setProperty("group.id", "lidea-app-group");
 
         FlinkKafkaConsumer010<String> consumer =
                 new FlinkKafkaConsumer010<>(KafkaConst.TOPIC, new SimpleStringSchema(), props);
-        consumer.assignTimestampsAndWatermarks(new MessageWaterEmitter());
+        consumer.assignTimestampsAndWatermarks(new MessageWaterEmitter()); // 水位
 
         // 分离出日志格式
         DataStream<LogContent> mapStream = env.addSource(consumer)
-                .filter(new LogContentFilter())
+                .filter((l) -> {
+                    return true; // filt the duplicate record.
+                })
                 .map(new LogContentSplitter());
 
-        // 统计调用次数、平均响应时间、故障次数
-        addBaseJob(mapStream);
-        // keyStream.print().setParallelism(1); 打印调试
 
-        env.execute("Calc access, avg time, exception count.");
+        // 写入APP数据
+        addBaseJob(mapStream);
+        // keyStream.print().setParallelism(1); // 打印调试
+
+        env.execute("Record the exception detail.");
 
     }
 
     private static void addBaseJob(DataStream<LogContent> mapStream) {
-        // 统计调用次数
-        DataStream<LogContentCount> keyStream = mapStream
-                .keyBy("appName", "serviceName", "methodName")
+
+        mapStream.keyBy("traceId")
                 .timeWindow(Time.seconds(10))
-                .aggregate(new LogContentAgg(), new LogContentWinFun());
+        ;
 
-        keyStream.addSink(new LideaBaseSinkFun());
+        // mapStream.print().setParallelism(1); // 打印调试
+        mapStream.addSink(new LideaAppSinkFun());
     }
-
 
 }

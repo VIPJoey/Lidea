@@ -1,3 +1,6 @@
+
+create 'LideaApp', { NAME => 'S', TTL => 86400}
+
 create 'LideaLog', { NAME => 'S', TTL => 86400}
 
 create 'LideaLogDetail', { NAME => 'S', TTL => 86400}
