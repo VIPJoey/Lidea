@@ -1,10 +1,72 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Lidea</title>
+    <!--<link rel="stylesheet" th:href="@{~/v1/css/gallery.style.css}" media="screen" type="text/css" />-->
+    <style>
+
+        .container { width: 80%; margin: 0 auto; }
+        .img-holder {
+            float: left;
+            position: relative;
+            width: 170px;
+            height: 120px;
+            background-color: dodgerblue;
+            margin: 20px;
+            font-family: 'DejaVu Serif', Georgia, "Times New Roman", Times, serif;
+            color: #eaf3f5;
+            text-align: center;
+            cursor: pointer;
+        }
+    </style>
 </head>
-<body>
+<body style="width: 100%;">
+
+<div class="container" id="divContainer">
+
+</div>
+
+<div id="divTpl" style="display: none;">
+    <div class="img-holder" data-name="{}">
+        <span>{}</span>
+    </div>
+</div>
+
+<div style="display: none">
+    <form id="frmMethodList" action="/lidea/methodList" method="POST">
+        <label for="txtAppName"></label><input id="txtAppName" name="appName"/>
+    </form>
+</div>
+
+<script th:src="@{~/v1/js/jquery-3.4.1.min.js}"></script>
+<script th:src="@{~/v1/js/Nora.js}"></script>
+<script th:src="@{~/v1/js/app.js}"></script>
+<script type="text/javascript">
+
+
+    $(function () {
+
+
+        let params = {};
+        Nora.Ajax("/lidea/detail/apps", params, function (data) {
+
+            if (data.success && null != data.data) {
+
+                bindDataToGallery(data.data);
+
+            } else {
+                // on fail
+                alert(data.msg);
+            }
+
+        }, function (data) {
+            // on error
+            alert("error " + data)
+        });
+
+    });
+</script>
 
 </body>
 </html>

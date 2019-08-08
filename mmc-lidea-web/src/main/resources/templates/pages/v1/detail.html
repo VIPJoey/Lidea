@@ -16,9 +16,9 @@
 
 <div style="display: none">
     <form id="frmErrorList" action="/lidea/errorList" target="_blank" method="POST">
-        <label for="txtAppName"></label><input id="txtAppName" name="appName"/>
-        <label for="txtServiceName"></label><input id="txtServiceName" name="serviceName"/>
-        <label for="txtMethodName"></label><input id="txtMethodName" name="methodName"/>
+        <label for="txtAppName"></label><input id="txtAppName" name="appName" th:value="${appName}"/>
+        <label for="txtServiceName"></label><input id="txtServiceName" name="serviceName" th:value="${serviceName}"/>
+        <label for="txtMethodName"></label><input id="txtMethodName" name="methodName" th:value="${methodName}"/>
         <label for="txtFrom"></label><input id="txtFrom" name="from"/>
         <label for="txtTo"></label><input id="txtTo" name="to"/>
         <label for="txtSize"></label><input id="txtSize" name="size"/>
@@ -35,12 +35,14 @@
 
     $(function(){
 
-        let appName = "cabinet-base-server";
-        let serviceName = "com.fcbox.edms.terminal.api.CabinetServiceFacade";
-        let methodName = "getCabinetInfo";
+
+        let appName = $("#txtAppName").val();
+        let serviceName = $("#txtServiceName").val();
+        let methodName = $("#txtMethodName").val();
         let from = new Date("2019/07/28 00:00:00").getTime();
         let to = new Date("2019/08/31 00:00:00").getTime();
         let size = 1000;
+        debugger;
 
         let params = {
             "appName": appName,

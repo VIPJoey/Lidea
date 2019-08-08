@@ -1,6 +1,6 @@
 
 
-function bindDataToException(resp) {
+function bindDataToGrid(resp) {
 
     let tpl = $("#tplRow").html();
 

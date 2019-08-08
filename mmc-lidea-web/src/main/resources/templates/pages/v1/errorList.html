@@ -59,8 +59,6 @@
     </div>
 
 </div>
-<!-- ECharts单文件引入 -->
-<script th:src="@{~/v1/js/echarts.js}"></script>
 <script th:src="@{~/v1/js/jquery-3.4.1.min.js}"></script>
 <script th:src="@{~/v1/js/jquery.basictable.min.js}"></script>
 <script th:src="@{~/v1/js/Nora.js}"></script>
@@ -94,7 +92,7 @@
 
             if (data.success && null != data.data) {
 
-                bindDataToException(data.data);
+                bindDataToGrid(data.data);
 
             } else {
                 // on fail

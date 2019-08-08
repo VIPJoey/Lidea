@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lidea</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0, user-scalable=no"/>
+    <link rel="stylesheet" th:href="@{~/v1/css/basictable.css}"/>
+    <link rel="stylesheet" th:href="@{~/v1/css/style.css}"/>
+</head>
+<body>
+
+
+<div>
+
+    <div>
+
+        <table id="tbList">
+            <thead>
+            <tr>
+                <th>Time</th>
+                <th>ServiceName</th>
+                <th>Method</th>
+                <th>Operate</th>
+            </tr>
+            </thead>
+            <tbody>
+
+            </tbody>
+        </table>
+
+    </div>
+</div>
+<div style="display: none">
+    <table>
+        <tr id="tplRow">
+            <td>{}</td>
+            <td>{}</td>
+            <td>{}</td>
+            <td>{}</td>
+        </tr>
+    </table>
+</div>
+
+<div style="display: none">
+    <form id="frmDetail" action="/lidea/detail" method="POST">
+        <label for="txtAppName"></label><input id="txtAppName" name="appName" th:value="${appName}"/>
+        <label for="txtServiceName"></label><input id="txtServiceName" name="serviceName"/>
+        <label for="txtMethodName"></label><input id="txtMethodName" name="methodName"/>
+    </form>
+</div>
+
+<script th:src="@{~/v1/js/jquery-3.4.1.min.js}"></script>
+<script th:src="@{~/v1/js/jquery.basictable.min.js}"></script>
+<script th:src="@{~/v1/js/Nora.js}"></script>
+<script th:src="@{~/v1/js/methodList.js}"></script>
+<script type="text/javascript">
+
+
+    $(function () {
+
+        let appName = $("#txtAppName").val();
+
+        let params = {
+            "appName": appName,
+        };
+
+        Nora.Ajax("/lidea/detail/methods", params, function (data) {
+
+            if (data.success && null != data.data) {
+
+                bindDataToMethods(data.data);
+
+            } else {
+                // on fail
+                alert(data.msg);
+            }
+
+        }, function (data) {
+            // on error
+            alert("error " + data)
+        });
+
+    });
+</script>
+</body>
+</html>

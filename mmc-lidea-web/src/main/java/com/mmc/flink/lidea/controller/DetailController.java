@@ -10,10 +10,7 @@
 package com.mmc.flink.lidea.controller;
 
 import com.mmc.flink.lidea.dao.LideaLogDAO;
-import com.mmc.flink.lidea.dto.LideaLogErrorDetailResp;
-import com.mmc.flink.lidea.dto.LideaLogReq;
-import com.mmc.flink.lidea.dto.LideaLogResp;
-import com.mmc.flink.lidea.dto.ResultDTO;
+import com.mmc.flink.lidea.dto.*;
 import com.mmc.flink.lidea.service.LideaLogService;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,6 +31,23 @@ public class DetailController {
     @Resource
     private LideaLogService lidiaLogService;
 
+    @RequestMapping("/apps")
+    public ResultDTO<LideaAppResp> getApps() {
+
+        LideaAppResp data = lidiaLogService.listApps();
+
+        return ResultDTO.handleSuccess("SUCESS", data);
+
+    }
+
+    @RequestMapping("/methods")
+    public ResultDTO<LideaMethodResp> methods(LideaMethodReq req) {
+
+        LideaMethodResp data = lidiaLogService.listMethods(req);
+
+        return ResultDTO.handleSuccess("SUCESS", data);
+
+    }
 
     @RequestMapping("/access")
     public ResultDTO<LideaLogResp> getAccess(LideaLogReq req) {

@@ -1,0 +1,25 @@
+
+
+truncate 'LideaApp'
+
+
+truncate 'LideaMethod'
+
+
+truncate 'LideaLog'
+
+
+truncate 'LideaLogDetail'
+
+
+
+enable 'LideaApp'
+
+
+enable 'LideaMethod'
+
+
+enable 'LideaLog'
+
+
+enable 'LideaLogDetail'

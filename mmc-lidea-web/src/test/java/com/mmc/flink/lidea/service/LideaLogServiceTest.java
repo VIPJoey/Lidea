@@ -3,6 +3,8 @@ package com.mmc.flink.lidea.service;
 import com.alibaba.fastjson.JSON;
 import com.mmc.flink.lidea.dto.LideaLogErrorDetailResp;
 import com.mmc.flink.lidea.dto.LideaLogReq;
+import com.mmc.flink.lidea.dto.LideaMethodReq;
+import com.mmc.flink.lidea.dto.LideaMethodResp;
 import com.mmc.lidea.util.TimeUtil;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -43,13 +45,25 @@ public class LideaLogServiceTest {
         LideaLogReq req = new LideaLogReq();
         req.setAppName("cabinet-base-server");
         req.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
-        req.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacad");
         req.setMethodName("getCabinetInfo");
         req.setFrom(1565057370000L);
         req.setTo(1565057370000L);
         req.setSize(100);
 
         LideaLogErrorDetailResp resp = lideaLogService.listError(req);
+
+        System.out.println("==========================================================================================");
+        System.out.println(JSON.toJSONString(resp));
+    }
+
+    @Test
+    public void listMethods() {
+
+        LideaMethodReq req = new LideaMethodReq();
+        req.setAppName("cabinet-base-server");
+        req.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
+
+        LideaMethodResp resp = lideaLogService.listMethods(req);
 
         System.out.println("==========================================================================================");
         System.out.println(JSON.toJSONString(resp));
