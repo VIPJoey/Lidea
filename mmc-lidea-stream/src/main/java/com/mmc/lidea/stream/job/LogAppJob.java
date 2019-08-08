@@ -16,6 +16,7 @@ import com.mmc.lidea.stream.flink.LogContentErrorFilter;
 import com.mmc.lidea.stream.flink.LogContentSplitter;
 import com.mmc.lidea.stream.flink.MessageWaterEmitter;
 import com.mmc.lidea.stream.model.LogContent;
+import com.mmc.lidea.stream.util.LogAppNameUtil;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.TimeCharacteristic;
@@ -72,7 +73,7 @@ public class LogAppJob {
 
     private static void addBaseJob(DataStream<LogContent> mapStream) {
 
-        mapStream.keyBy("traceId")
+        mapStream.filter(l -> !LogAppNameUtil.exists(l.appName)).keyBy("traceId")
                 .timeWindow(Time.seconds(10))
         ;
 

@@ -105,13 +105,13 @@ public class MessageProducer {
     }
 
     private static String getServerName() {
-//        return servers[getRandomNumberInRange(0, 0)];
-        return servers[getRandomNumberInRange(0, 3)];
+        return servers[getRandomNumberInRange(0, 0)];
+//        return servers[getRandomNumberInRange(0, 3)];
     }
 
     private static String getInterFaceName() {
-//        return interfaces[getRandomNumberInRange(0, 0)];
-        return interfaces[getRandomNumberInRange(0, 3)];
+        return interfaces[getRandomNumberInRange(0, 0)];
+//        return interfaces[getRandomNumberInRange(0, 3)];
     }
 
 

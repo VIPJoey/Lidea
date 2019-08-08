@@ -102,10 +102,10 @@ public class LideaLogDAOTest {
         req.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
         req.setMethodName("getCabinetInfo");
 
-        System.out.println(TimeUtil.timestampToString(1565012550000L, TimeUtil.yyyyMMddHHmmssSSS));
+        System.out.println(TimeUtil.timestampToString(1565266170000L, TimeUtil.yyyyMMddHHmmssSSS));
 
-        req.setFrom(1565012550000L);
-        req.setTo(1565012550000L);
+        req.setFrom(1565266170000L);
+        req.setTo(1565266170000L);
 
         LideaLogResp resp = lideaLogDAO.get(req);
         System.out.println("==========================================================================================");

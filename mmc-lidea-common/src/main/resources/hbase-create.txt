@@ -1,7 +1,7 @@
 
-create 'LideaApp', { NAME => 'S', TTL => 86400}
+create 'LideaApp', { NAME => 'S', TTL => 864000}
 
-create 'LideaMethod', { NAME => 'S', TTL => 86400}
+create 'LideaMethod', { NAME => 'S', TTL => 864000}
 
 create 'LideaLog', { NAME => 'S', TTL => 86400}
 

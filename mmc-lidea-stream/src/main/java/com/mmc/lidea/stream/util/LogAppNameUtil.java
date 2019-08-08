@@ -22,11 +22,11 @@ public class LogAppNameUtil {
 
     public static boolean exists(String name) {
 
-        if (names.containsKey(name)) {
-            return true;
-        }
-        names.put(name, name);
-        return false;
+        return names.containsKey(name);
+    }
+
+    public static void put(String pwd) {
+        names.put(pwd, "1");
     }
 
 }
