@@ -3,33 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <title>Lidea</title>
-    <!--<link rel="stylesheet" th:href="@{~/v1/css/gallery.style.css}" media="screen" type="text/css" />-->
-    <style>
+    <link rel="stylesheet" th:href="@{~/v1/gallery/css/style.css}" media="screen" type="text/css"/>
 
-        .container { width: 80%; margin: 0 auto; }
-        .img-holder {
-            float: left;
-            position: relative;
-            width: 170px;
-            height: 120px;
-            background-color: dodgerblue;
-            margin: 20px;
-            font-family: 'DejaVu Serif', Georgia, "Times New Roman", Times, serif;
-            color: #eaf3f5;
-            text-align: center;
-            cursor: pointer;
-        }
-    </style>
 </head>
-<body style="width: 100%;">
+<body>
 
-<div class="container" id="divContainer">
+<div>
+
+
+    <div style="margin: 0 auto; width:60%;">
+
+        <div class="container" id="divContainer">
+
+
+        </div>
+
+
+        <div class="controller">
+            Go to: <label>
+            <input type="text" class="">
+        </label>
+        </div>
+
+        <div class="scrolller-container">
+            <div class="scroller"></div>
+        </div>
+
+
+    </div>
 
 </div>
 
+
 <div id="divTpl" style="display: none;">
-    <div class="img-holder" data-name="{}">
-        <span>{}</span>
+
+    <div class="img-holder" >
+        <img th:src="@{~/v1/img/11.png}" onclick="openMethodPage(this)" data-name="{}">
+        <div>{}</div>
+        <div class="img-ref">
+            <img th:src="@{~/v1/img/11.png}">
+        </div>
     </div>
 </div>
 
@@ -39,9 +52,14 @@
     </form>
 </div>
 
-<script th:src="@{~/v1/js/jquery-3.4.1.min.js}"></script>
+<!--<script th:src="@{~/v1/js/jquery-3.4.1.min.js}"></script>-->
+<script th:src="@{~/v1/gallery/js/jquery.js}"></script>
+<script th:src="@{~/v1/gallery/js/TweenMax.min.js}"></script>
+<script th:src="@{~/v1/gallery/js/Draggable.min.js}"></script>
+<script th:src="@{~/v1/gallery/js/index.js}"></script>
 <script th:src="@{~/v1/js/Nora.js}"></script>
 <script th:src="@{~/v1/js/app.js}"></script>
+
 <script type="text/javascript">
 
 

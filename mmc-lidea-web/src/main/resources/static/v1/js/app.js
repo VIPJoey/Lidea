@@ -11,15 +11,23 @@ function bindDataToGallery(resp) {
         $("#divContainer").append(html);
     }
 
-    $(".img-holder").click(function (e) {
+    let mid = resp.data.length / 2;
 
-        let appName = $(this).attr("data-name");
-        $("#txtAppName").val(appName);
+    initContainer();
+    setJump();
+    setDrag();
+    bindEvent();
 
-        $("#frmMethodList").submit();
+    showImgAt(mid);
 
+}
 
+function openMethodPage(e) {
 
-    });
+    let appName = $(e).attr("data-name");
+    $("#txtAppName").val(appName);
+
+    window.location.href = "/lidea/methodList?appName=" + appName;
+    //$("#frmMethodList").submit();
 }
 

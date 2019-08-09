@@ -1,0 +1,85 @@
+body{  
+  height:0; /*not sure but codepen has some kind of height*/
+}
+.container .img-holder {
+  width:250px;
+  height:180px;
+  position:absolute;
+  background-color:#fff;  
+  box-shadow:0px 1px 6px 3px #ccc; 
+  visiblity:hidden;
+  opacity:0;
+  top:50px;
+  left:395px;
+  cursor:pointer;
+  z-index:99;
+}
+
+.container .img-holder img {margin-top:5px;}
+
+.container{   
+  position:relative;
+  height:300px;
+  width:1040px;
+  left:20px;
+  top:100px;
+  border:2px solid #ccc;
+  text-indent:4px;
+  font-weight:bold;
+}
+
+.controller{
+  top:120px;
+  left:20px;
+  width:300px;
+  margin:0 auto;
+  position:relative;
+}
+
+.scrolller-container{
+  width:800px;
+  height:15px;
+  border:1px solid #ccc;
+  border-radius:10px;
+  position:relative;
+  top:150px;
+  left:130px;
+  cursor:pointer; 
+}
+.scrolller-container .scroller{
+   width:100px;
+   height:15px;
+   background-color:#ddd;
+   border-radius:10px;
+   position:absolute;
+   left:0px;
+}
+
+/* For reflection */
+.container .img-ref{
+  position:relative;
+  left:0;   
+  z-index:-1;
+}
+.container .img-ref img {
+  -webkit-transform: scaleY(-1);
+  -moz-transform: scaleY(-1);
+  -ms-transform: scaleY(-1);
+  -o-transform: scaleY(-1);
+  transform: scaleY(-1);
+}
+.container .img-ref:after {
+  content: "";
+  width: 100%;
+  height: 300px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: #000000;
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(38%, rgba(255, 255, 255, 0)), color-stop(40% rgba(255, 255, 255, 0.67)), color-stop(65% #fff));
+  background: -webkit-linear-gradient(top, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0.67) 40%, #fff 65%);
+  background: -moz-linear-gradient(top, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0.67) 40%, #fff 65%);
+  background: -ms-linear-gradient(top, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0.67) 40%, #fff 65%);
+  background: -o-linear-gradient(top, rgba(255, 255, 255, 0) 38%, rgba(255, 255, 255, 0.67) 40%, #fff 65%);
+  background: linear-gradient(top, rgba(255, 255, 255, 0) 38%, rgba(0, 0, 0, 0.67) 40%, #fff 65%);
+} 
