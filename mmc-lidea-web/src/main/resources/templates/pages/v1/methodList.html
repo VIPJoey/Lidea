@@ -7,38 +7,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0 maximum-scale=1.0, user-scalable=no"/>
     <link rel="stylesheet" th:href="@{~/v1/css/basictable.css}"/>
     <link rel="stylesheet" th:href="@{~/v1/css/style.css}"/>
+    <style>
+        .tdClass { cursor: pointer; }
+    </style>
 </head>
 <body>
 
 
 <div>
 
-    <div>
+    <div style="width: 100%; margin: 0 auto;" id="divContainer">
 
-        <table id="tbList">
-            <thead>
-            <tr>
-                <th>Time</th>
-                <th>ServiceName</th>
-                <th>Method</th>
-                <th>Operate</th>
-            </tr>
-            </thead>
-            <tbody>
 
-            </tbody>
-        </table>
+
+
 
     </div>
+
 </div>
-<div style="display: none">
-    <table>
-        <tr id="tplRow">
-            <td>{}</td>
-            <td>{}</td>
-            <td>{}</td>
-            <td>{}</td>
+<div style="display: none" id="tplRow">
+
+    <table class="tbList" style="width: 30%;margin: 10px; 10px; float: left;">
+        <thead>
+        <tr>
+            <th>Time</th>
+            <th>ServiceName</th>
+            <th>Method</th>
+            <th>Access</th>
         </tr>
+        </thead>
+        <tbody>
+            <tr >
+                <td>{}</td>
+                <td class="tdClass">{}</td>
+                <td>{}</td>
+                <td>{}</td>
+            </tr>
+        </tbody>
     </table>
 </div>
 

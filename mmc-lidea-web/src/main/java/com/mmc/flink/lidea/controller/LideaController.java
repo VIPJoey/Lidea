@@ -15,6 +15,7 @@ import com.mmc.flink.lidea.dto.LideaMethodReq;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 /**
  * @author Joey
@@ -44,7 +45,17 @@ public class LideaController {
     }
 
     @RequestMapping("/detail")
-    public String detail(LideaLogReq req, Model model) {
+    public String detail(LideaLogReq req, RedirectAttributes redirectAttributes) {
+
+        redirectAttributes.addAttribute("appName", req.getAppName());
+        redirectAttributes.addAttribute("serviceName", req.getServiceName());
+        redirectAttributes.addAttribute("methodName", req.getMethodName());
+
+        return "redirect:/lidea/redetail";
+    }
+
+    @RequestMapping("/redetail")
+    public String reDetail(LideaLogReq req, Model model) {
 
         model.addAttribute("appName", req.getAppName());
         model.addAttribute("serviceName", req.getServiceName());
@@ -52,6 +63,7 @@ public class LideaController {
 
         return "/pages/v1/detail.html";
     }
+
 
     @RequestMapping("/errorList")
     public String errorList(LideaLogReq req, Model model) {
