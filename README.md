@@ -1,11 +1,11 @@
 # Lidea
-大型分布式系统实时监控平台 （迭代中）
+基于Flink和Hbase大型分布式系统实时监控平台 
 
 # 效果图
-![Image text](https://github.com/VIPJoey/Lidea/blob/master/assets/runing.png)
+![效果图](https://github.com/VIPJoey/Lidea/blob/master/assets/runing.png)
 
 # 系统架构
-![Image text](https://github.com/VIPJoey/Lidea/blob/master/assets/framework.png)
+![系统架构](https://github.com/VIPJoey/Lidea/blob/master/assets/framework.png)
 
 # 设计原理
-
+![设计原理](https://github.com/VIPJoey/Lidea/blob/master/assets/design.png)
