@@ -39,8 +39,8 @@
         let appName = $("#txtAppName").val();
         let serviceName = $("#txtServiceName").val();
         let methodName = $("#txtMethodName").val();
-        let from = new Date("2019/07/28 00:00:00").getTime();
-        let to = new Date("2019/08/31 00:00:00").getTime();
+        let from = new Date().getTime();
+        let to = new Date(new Date().getTime() + 24*60*60*1000).getTime();
         let size = 1000;
 
         let params = {
