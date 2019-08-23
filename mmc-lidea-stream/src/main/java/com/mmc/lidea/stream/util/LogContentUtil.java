@@ -25,6 +25,11 @@ public class LogContentUtil {
 
                 String[] parts = element.split("\\|");
 
+                if (parts.length < 13) {
+                    System.out.println(Thread.currentThread().getName() + ", bad message, length < 13");
+                    return null;
+                }
+
                 int i = 0;
                 LogContent content = new LogContent();
                 content.time = parts[i++];

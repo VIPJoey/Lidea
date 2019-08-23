@@ -11,8 +11,8 @@ package com.mmc.lidea.stream.job;
 
 import com.mmc.lidea.stream.Bootstrap;
 import com.mmc.lidea.stream.context.KafkaConst;
-import com.mmc.lidea.stream.flink.LideaAppSinkFun;
 import com.mmc.lidea.stream.flink.LideaMethodSinkFun;
+import com.mmc.lidea.stream.flink.LogContentFilter;
 import com.mmc.lidea.stream.flink.LogContentSplitter;
 import com.mmc.lidea.stream.flink.MessageWaterEmitter;
 import com.mmc.lidea.stream.model.LogContent;
@@ -43,14 +43,15 @@ public class LogMethodJob {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.enableCheckpointing(5000); // 非常关键，一定要设置启动检查点！！
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
+        env.setParallelism(1); // 这个不需要太多资源
 
-        String confName = "hbase.properties";
+        String confName = "lidea.properties";
         InputStream in = Bootstrap.class.getClassLoader().getResourceAsStream(confName);
         ParameterTool parameterTool = ParameterTool.fromPropertiesFile(in);
         env.getConfig().setGlobalJobParameters(parameterTool);
 
         Properties props = new Properties();
-        props.setProperty("bootstrap.servers", "localhost:9092");
+        props.setProperty("bootstrap.servers", parameterTool.get("kafka.bootstrap.servers", "localhost:9092"));
         props.setProperty("group.id", "lidea-method-group");
 
         FlinkKafkaConsumer010<String> consumer =
@@ -59,9 +60,7 @@ public class LogMethodJob {
 
         // 分离出日志格式
         DataStream<LogContent> mapStream = env.addSource(consumer)
-                .filter((l) -> {
-                    return true; // filt the duplicate record.
-                })
+                .filter(new LogContentFilter())
                 .map(new LogContentSplitter());
 
 

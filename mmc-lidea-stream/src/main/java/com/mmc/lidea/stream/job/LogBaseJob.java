@@ -37,13 +37,13 @@ public class LogBaseJob {
         env.enableCheckpointing(5000); // 非常关键，一定要设置启动检查点！！
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
-        String confName = "hbase.properties";
+        String confName = "lidea.properties";
         InputStream in = LogBaseJob.class.getClassLoader().getResourceAsStream(confName);
         ParameterTool parameterTool = ParameterTool.fromPropertiesFile(in);
         env.getConfig().setGlobalJobParameters(parameterTool);
 
         Properties props = new Properties();
-        props.setProperty("bootstrap.servers", "localhost:9092");
+        props.setProperty("bootstrap.servers", parameterTool.get("kafka.bootstrap.servers", "localhost:9092"));
         props.setProperty("group.id", "flink-base-group");
 
         FlinkKafkaConsumer010<String> consumer =

@@ -13,8 +13,6 @@ import com.mmc.lidea.stream.Bootstrap;
 import com.mmc.lidea.stream.context.KafkaConst;
 import com.mmc.lidea.stream.flink.*;
 import com.mmc.lidea.stream.model.LogContent;
-import com.mmc.lidea.stream.model.LogContentCount;
-import org.apache.flink.api.common.functions.ReduceFunction;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.TimeCharacteristic;
@@ -40,13 +38,13 @@ public class LogDetailJob {
         env.enableCheckpointing(5000); // 非常关键，一定要设置启动检查点！！
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
-        String confName = "hbase.properties";
+        String confName = "lidea.properties";
         InputStream in = Bootstrap.class.getClassLoader().getResourceAsStream(confName);
         ParameterTool parameterTool = ParameterTool.fromPropertiesFile(in);
         env.getConfig().setGlobalJobParameters(parameterTool);
 
         Properties props = new Properties();
-        props.setProperty("bootstrap.servers", "localhost:9092");
+        props.setProperty("bootstrap.servers", parameterTool.get("kafka.bootstrap.servers", "localhost:9092"));
         props.setProperty("group.id", "lidea-detail-group");
 
         FlinkKafkaConsumer010<String> consumer =

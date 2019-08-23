@@ -80,11 +80,11 @@ public class LideaAppSinkFun extends RichSinkFunction<LogContent> {
     public void invoke(LogContent bo, Context context) throws IOException {
 
         // 如果已经存在key，不用重复新增
-//        if (LogAppNameUtil.exists(bo.appName)) {
-//            return;
-//        } else {
-//            LogAppNameUtil.put(bo.appName);;
-//        }
+        if (LogAppNameUtil.exists(bo.appName)) {
+            return;
+        } else {
+            LogAppNameUtil.put(bo.appName);;
+        }
 
         Put put = new Put(makeRowKey(bo));
         put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("time"), BytesUtils.toBytes(bo.time));

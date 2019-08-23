@@ -31,6 +31,6 @@ public class LogContentFilter implements org.apache.flink.api.common.functions.F
      */
     @Override
     public boolean filter(String value) throws Exception {
-        return true;
+        return value.split("\\|").length > 12; // filt the not suitable record.
     }
 }
