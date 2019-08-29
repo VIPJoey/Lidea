@@ -11,14 +11,11 @@ package com.mmc.lidea.stream.job;
 
 import com.mmc.flink.lidea.common.context.KafkaConst;
 import com.mmc.lidea.stream.Bootstrap;
-import com.mmc.lidea.stream.flink.LideaMethodSinkFun;
-import com.mmc.lidea.stream.flink.LogContentFilter;
+import com.mmc.lidea.stream.flink.LideaDetailSinkFun;
+import com.mmc.lidea.stream.flink.LogContentErrorFilter;
 import com.mmc.lidea.stream.flink.LogContentSplitter;
 import com.mmc.lidea.stream.flink.MessageWaterEmitter;
 import com.mmc.lidea.stream.model.LogContent;
-import com.mmc.lidea.stream.util.LogMethodNameUtil;
-import com.mmc.lidea.util.MD5Util;
-import com.mmc.lidea.util.StringUtil;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.TimeCharacteristic;
@@ -34,7 +31,7 @@ import java.util.Properties;
  * @author Joey
  * @date 2019/8/4 16:39
  */
-public class LogMethodJob {
+public class LideaDetailJob {
 
 
     public static void main(String[] args) throws Exception {
@@ -43,7 +40,6 @@ public class LogMethodJob {
         final StreamExecutionEnvironment env = StreamExecutionEnvironment.getExecutionEnvironment();
         env.enableCheckpointing(5000); // 非常关键，一定要设置启动检查点！！
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
-        env.setParallelism(1); // 这个不需要太多资源
 
         String confName = "lidea.properties";
         InputStream in = Bootstrap.class.getClassLoader().getResourceAsStream(confName);
@@ -52,37 +48,34 @@ public class LogMethodJob {
 
         Properties props = new Properties();
         props.setProperty("bootstrap.servers", parameterTool.get("kafka.bootstrap.servers", "localhost:9092"));
-        props.setProperty("group.id", "lidea-method-group");
+        props.setProperty("group.id", "lidea-detail-group");
 
         FlinkKafkaConsumer010<String> consumer =
                 new FlinkKafkaConsumer010<>(KafkaConst.TOPIC, new SimpleStringSchema(), props);
-        consumer.assignTimestampsAndWatermarks(new MessageWaterEmitter()); // 水位
+        consumer.assignTimestampsAndWatermarks(new MessageWaterEmitter());
 
         // 分离出日志格式
         DataStream<LogContent> mapStream = env.addSource(consumer)
-                .filter(new LogContentFilter())
+                .filter(new LogContentErrorFilter())
                 .map(new LogContentSplitter());
 
 
-        // 写入APP数据
+        // 写入故障数据
         addBaseJob(mapStream);
+        // keyStream.print().setParallelism(1); // 打印调试
 
-        env.execute("Record the method name.");
+        env.execute("Record the exception detail.");
 
     }
 
     private static void addBaseJob(DataStream<LogContent> mapStream) {
 
-        mapStream.filter(value -> {
+        mapStream.keyBy("traceId")
+                .timeWindow(Time.seconds(10))
+                ;
 
-            String key = MD5Util.encrypt(StringUtil.format("{}{}{}",
-                    value.appName, value.serviceName, value.methodName));
-
-            return !LogMethodNameUtil.exists(key);
-
-        }).keyBy("traceId").timeWindow(Time.seconds(10));
-
-        mapStream.addSink(new LideaMethodSinkFun());
+        // mapStream.print().setParallelism(1); // 打印调试
+        mapStream.addSink(new LideaDetailSinkFun());
     }
 
 }

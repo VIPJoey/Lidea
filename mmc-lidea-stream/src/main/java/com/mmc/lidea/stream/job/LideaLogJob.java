@@ -57,7 +57,6 @@ public class LideaLogJob {
 
         // 统计调用次数、平均响应时间、故障次数
         addBaseJob(mapStream);
-        // keyStream.print().setParallelism(1); 打印调试
 
         env.execute("Calc access, avg time, exception count.");
 
