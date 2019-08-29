@@ -9,22 +9,17 @@
  */
 package com.mmc.flink.lidea.dto;
 
-import com.mmc.flink.lidea.common.bo.LideaAppBO;
 import lombok.Data;
-
-import java.util.List;
 
 /**
  * @author Joey
- * @date 2019/7/26 20:47
+ * @date 2019/8/29 14:49
  */
 @Data
-public class LideaAppResp {
-
+public class LideaServiceReq {
 
     /**
-     * 数据.
+     * 系统名称.
      */
-    private List<LideaAppBO> data;
-
+    private String appName;
 }

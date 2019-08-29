@@ -6,8 +6,8 @@ function bindDataToMethods(resp) {
         let d = resp.data[i];
         let html = Nora.Util.StringUtil.format(tpl,
             d.time,
-            Nora.Util.StringUtil.format("<span class='.opClass' onclick='showDetail(this)'  data-appName='{}' data-service='{}' data-method='{}'>{}</span>", d.appName, d.serviceName, d.methodName, d.serviceName),
-            d.methodName,
+            d.serviceName,
+            Nora.Util.StringUtil.format("<span class='.opClass' onclick='showDetail(this)'  data-appName='{}' data-service='{}' data-method='{}'>{}</span>", d.appName, d.serviceName, d.methodName, d.methodName),
             "100w"
         );
         $("#divContainer").append(html);

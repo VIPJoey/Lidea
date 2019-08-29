@@ -40,6 +40,15 @@ public class DetailController {
 
     }
 
+    @RequestMapping("/services")
+    public ResultDTO<LideaServiceResp> getServices(LideaServiceReq req) {
+
+        LideaServiceResp data = lidiaLogService.listServices(req);
+
+        return ResultDTO.handleSuccess("SUCESS", data);
+
+    }
+
     @RequestMapping("/methods")
     public ResultDTO<LideaMethodResp> methods(LideaMethodReq req) {
 

@@ -7,7 +7,7 @@
  * you entered into with Founder.
  *
  */
-package com.mmc.flink.lidea.bo;
+package com.mmc.flink.lidea.common.bo;
 
 import lombok.Data;
 
@@ -15,24 +15,16 @@ import java.io.Serializable;
 
 /**
  * @author Joey
- * @date 2019/7/26 17:57
+ * @date 2019/8/6 18:36
  */
 @Data
-public class LideaLogErrorDetailBO implements Serializable {
+public class LideaMethodBO implements Serializable {
 
-    private static final long serialVersionUID = 6673495081894666234L;
+    private static final long serialVersionUID = -2296577378425040440L;
 
-    public String time;
-    public String traceId;
-    public int type;
-    public String localIp;
-    public String remoteIp;
     public String appName;
     public String serviceName;
     public String methodName;
-    public String args;
-    public String response;
-    public int cost;
-    public String msg;
-    public String customMsg;
+    public String time;
+
 }

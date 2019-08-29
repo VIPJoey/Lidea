@@ -9,11 +9,13 @@
  */
 package com.mmc.lidea.stream.flink;
 
-import com.mmc.flink.lidea.common.bo.LideaMethodBO;
-import com.mmc.flink.lidea.common.entry.LideaMethodEntry;
+import com.mmc.flink.lidea.common.bo.LideaAppBO;
+import com.mmc.flink.lidea.common.bo.LideaServiceBO;
+import com.mmc.flink.lidea.common.entry.LideaAppEntry;
+import com.mmc.flink.lidea.common.entry.LideaServiceEntry;
 import com.mmc.lidea.stream.model.LogContent;
-import com.mmc.lidea.stream.util.LogMethodNameUtil;
-import com.mmc.lidea.util.BytesUtils;
+import com.mmc.lidea.stream.util.LogAppNameUtil;
+import com.mmc.lidea.stream.util.LogServiceNameUtil;
 import com.mmc.lidea.util.MD5Util;
 import com.mmc.lidea.util.StringUtil;
 import org.apache.flink.api.java.utils.ParameterTool;
@@ -29,7 +31,7 @@ import java.io.IOException;
  * @author Joey
  * @date 2019/8/2 17:18
  */
-public class LideaMethodSinkFun extends RichSinkFunction<LogContent> {
+public class LideaServiceSinkFun extends RichSinkFunction<LogContent> {
 
     private static final long serialVersionUID = 3868272239007101505L;
 
@@ -46,7 +48,7 @@ public class LideaMethodSinkFun extends RichSinkFunction<LogContent> {
                 getRuntimeContext().getExecutionConfig().getGlobalJobParameters();
         String zkServer = para.getRequired("hbase.zookeeper.quorum");
         String zkPort = para.getRequired("hbase.zookeeper.property.clientPort");
-        String tName = para.getRequired("lidea.log.method.name");
+        String tName = para.getRequired("lidea.log.service.name");
         TableName tableName = TableName.valueOf(tName);
 
         org.apache.hadoop.conf.Configuration config = HBaseConfiguration.create();
@@ -74,20 +76,21 @@ public class LideaMethodSinkFun extends RichSinkFunction<LogContent> {
     @Override
     public void invoke(LogContent bo, Context context) throws IOException {
 
-        // 过滤一下
-        String key = MD5Util.encrypt(StringUtil.format("{}{}{}", bo.appName, bo.serviceName, bo.methodName));
-        if (LogMethodNameUtil.exists(key)) {
+        String key = MD5Util.encrypt(StringUtil.format("{}{}",
+                bo.appName, bo.serviceName));
+
+        // 如果已经存在key，不用重复新增
+        if (LogServiceNameUtil.exists(key)) {
             return;
+        } else {
+            LogServiceNameUtil.put(key);
         }
-        LogMethodNameUtil.put(key);
 
-        LideaMethodBO lideaMethodBO = new LideaMethodBO();
-        lideaMethodBO.time = bo.time;
-        lideaMethodBO.appName = bo.appName;
-        lideaMethodBO.serviceName = bo.serviceName;
-        lideaMethodBO.methodName = bo.methodName;
+        LideaServiceBO lideaServiceBO = new LideaServiceBO();
+        lideaServiceBO.appName = bo.appName;
+        lideaServiceBO.serviceName = bo.serviceName;
 
-        Put put = LideaMethodEntry.of(lideaMethodBO);
+        Put put = LideaServiceEntry.of(lideaServiceBO);
 
         mutator.mutate(put);
 

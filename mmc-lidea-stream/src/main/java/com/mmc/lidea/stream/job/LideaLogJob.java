@@ -9,7 +9,7 @@
  */
 package com.mmc.lidea.stream.job;
 
-import com.mmc.lidea.stream.context.KafkaConst;
+import com.mmc.flink.lidea.common.context.KafkaConst;
 import com.mmc.lidea.stream.flink.*;
 import com.mmc.lidea.stream.model.LogContent;
 import com.mmc.lidea.stream.model.LogContentCount;
@@ -28,7 +28,7 @@ import java.util.Properties;
  * @author Joey
  * @date 2019/7/14 14:56
  */
-public class LogBaseJob {
+public class LideaLogJob {
 
 
     public static void main(String[] args) throws Exception {
@@ -38,7 +38,7 @@ public class LogBaseJob {
         env.setStreamTimeCharacteristic(TimeCharacteristic.EventTime);
 
         String confName = "lidea.properties";
-        InputStream in = LogBaseJob.class.getClassLoader().getResourceAsStream(confName);
+        InputStream in = LideaLogJob.class.getClassLoader().getResourceAsStream(confName);
         ParameterTool parameterTool = ParameterTool.fromPropertiesFile(in);
         env.getConfig().setGlobalJobParameters(parameterTool);
 

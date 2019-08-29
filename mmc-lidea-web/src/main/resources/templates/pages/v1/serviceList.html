@@ -30,15 +30,13 @@
     <table class="tbList" style="width: 40%;margin: 10px; 10px; float: left;">
         <thead>
         <tr>
-            <th>Time</th>
+            <th>APP</th>
             <th>ServiceName</th>
-            <th>Method</th>
-            <th>Access</th>
+            <th>Operate</th>
         </tr>
         </thead>
         <tbody>
             <tr >
-                <td>{}</td>
                 <td>{}</td>
                 <td class="tdClass">{}</td>
                 <td>{}</td>
@@ -50,7 +48,7 @@
 <div style="display: none">
     <form id="frmDetail" action="/lidea/detail" method="POST">
         <label for="txtAppName"></label><input id="txtAppName" name="appName" th:value="${appName}"/>
-        <label for="txtServiceName"></label><input id="txtServiceName" name="serviceName" th:value="${serviceName}"/>
+        <label for="txtServiceName"></label><input id="txtServiceName" name="serviceName"/>
         <label for="txtMethodName"></label><input id="txtMethodName" name="methodName"/>
     </form>
 </div>
@@ -58,25 +56,23 @@
 <script th:src="@{~/v1/js/jquery-3.4.1.min.js}"></script>
 <script th:src="@{~/v1/js/jquery.basictable.min.js}"></script>
 <script th:src="@{~/v1/js/Nora.js}"></script>
-<script th:src="@{~/v1/js/methodList.js}"></script>
+<script th:src="@{~/v1/js/serviceList.js}"></script>
 <script type="text/javascript">
 
 
     $(function () {
 
         let appName = $("#txtAppName").val();
-        let serviceName = $("#txtServiceName").val();
 
         let params = {
-            "appName": appName,
-            "serviceName": serviceName
+            "appName": appName
         };
 
-        Nora.Ajax("/lidea/detail/methods", params, function (data) {
+        Nora.Ajax("/lidea/detail/services", params, function (data) {
 
             if (data.success && null != data.data) {
 
-                bindDataToMethods(data.data);
+                bindDataToServices(data.data);
 
             } else {
                 // on fail

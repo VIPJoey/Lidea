@@ -12,6 +12,7 @@ package com.mmc.flink.lidea.controller;
 import com.alibaba.fastjson.JSON;
 import com.mmc.flink.lidea.dto.LideaLogReq;
 import com.mmc.flink.lidea.dto.LideaMethodReq;
+import com.mmc.flink.lidea.dto.LideaServiceReq;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,10 +37,19 @@ public class LideaController {
         return "/pages/v1/app.html";
     }
 
+    @RequestMapping("/serviceList")
+    public String serviceList(LideaServiceReq req, Model model) {
+
+        model.addAttribute("appName", req.getAppName());
+
+        return "/pages/v1/serviceList.html";
+    }
+
     @RequestMapping("/methodList")
     public String methodList(LideaMethodReq req, Model model) {
 
         model.addAttribute("appName", req.getAppName());
+        model.addAttribute("serviceName", req.getServiceName());
 
         return "/pages/v1/methodList.html";
     }

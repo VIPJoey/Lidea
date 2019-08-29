@@ -9,14 +9,16 @@
  */
 package com.mmc.lidea.stream.job;
 
+import com.mmc.flink.lidea.common.context.KafkaConst;
 import com.mmc.lidea.stream.Bootstrap;
-import com.mmc.lidea.stream.context.KafkaConst;
-import com.mmc.lidea.stream.flink.LideaAppSinkFun;
+import com.mmc.lidea.stream.flink.LideaServiceSinkFun;
 import com.mmc.lidea.stream.flink.LogContentFilter;
 import com.mmc.lidea.stream.flink.LogContentSplitter;
 import com.mmc.lidea.stream.flink.MessageWaterEmitter;
 import com.mmc.lidea.stream.model.LogContent;
-import com.mmc.lidea.stream.util.LogAppNameUtil;
+import com.mmc.lidea.stream.util.LogServiceNameUtil;
+import com.mmc.lidea.util.MD5Util;
+import com.mmc.lidea.util.StringUtil;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.TimeCharacteristic;
@@ -32,7 +34,7 @@ import java.util.Properties;
  * @author Joey
  * @date 2019/8/4 16:39
  */
-public class LogAppJob {
+public class LideaServiceJob {
 
 
     public static void main(String[] args) throws Exception {
@@ -61,23 +63,24 @@ public class LogAppJob {
                 .filter(new LogContentFilter())
                 .map(new LogContentSplitter());
 
-
         // 写入APP数据
         addBaseJob(mapStream);
-        // keyStream.print().setParallelism(1); // 打印调试
 
-        env.execute("Record the app name.");
+        env.execute("Record the interface name.");
 
     }
 
     private static void addBaseJob(DataStream<LogContent> mapStream) {
 
-        mapStream.filter(l -> !LogAppNameUtil.exists(l.appName)).keyBy("traceId")
-                .timeWindow(Time.seconds(10))
-        ;
+        mapStream.filter(value -> {
+            String key = MD5Util.encrypt(StringUtil.format("{}{}",
+                    value.appName, value.serviceName));
 
-        // mapStream.print().setParallelism(1); // 打印调试
-        mapStream.addSink(new LideaAppSinkFun());
+            return !LogServiceNameUtil.exists(key);
+
+        }).keyBy("traceId").timeWindow(Time.seconds(10));
+
+        mapStream.addSink(new LideaServiceSinkFun());
     }
 
 }

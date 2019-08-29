@@ -14,18 +14,19 @@ import java.util.Map;
 
 /**
  * @author Joey
- * @date 2019/8/6 22:07
+ * @date 2019/8/29 14:15
  */
-public class LogMethodNameUtil {
+public class LogServiceNameUtil {
 
-    private static Map<String, String> methods = new HashMap<>();
+    private static Map<String, String> names = new HashMap<>();
 
-    public static boolean exists(String pwd) {
+    public static boolean exists(String name) {
 
-        return methods.containsKey(pwd);
+        return names.containsKey(name);
     }
 
-    public static void put(String pwd) {
-        methods.put(pwd, "1");
+    public static void put(String name) {
+        names.put(name, "1");
     }
+
 }

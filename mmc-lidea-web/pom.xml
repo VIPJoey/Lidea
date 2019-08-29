@@ -66,15 +66,21 @@
 
         <dependency>
             <groupId>com.mmc</groupId>
-            <artifactId>mmc-lidea-util</artifactId>
+            <artifactId>mmc-lidea-common</artifactId>
             <version>1.0.0-SNAPSHOT</version>
         </dependency>
         <dependency>
-            <groupId>org.apache.cassandra</groupId>
-            <artifactId>cassandra-thrift</artifactId>
-            <version>RELEASE</version>
-            <scope>compile</scope>
+            <groupId>com.mmc</groupId>
+            <artifactId>mmc-lidea-util</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
         </dependency>
+
+        <!--<dependency>-->
+        <!--<groupId>org.apache.cassandra</groupId>-->
+        <!--<artifactId>cassandra-thrift</artifactId>-->
+        <!--<version>RELEASE</version>-->
+        <!--<scope>compile</scope>-->
+        <!--</dependency>-->
 
 
     </dependencies>

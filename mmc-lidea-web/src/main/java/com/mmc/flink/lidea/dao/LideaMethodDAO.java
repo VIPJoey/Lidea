@@ -9,18 +9,17 @@
  */
 package com.mmc.flink.lidea.dao;
 
-import com.mmc.flink.lidea.bo.LideaAppBO;
-import com.mmc.flink.lidea.bo.LideaMethodBO;
-import com.mmc.flink.lidea.context.Const;
+import com.mmc.flink.lidea.common.bo.LideaMethodBO;
+import com.mmc.flink.lidea.common.context.Const;
+import com.mmc.flink.lidea.common.entry.LideaMethodEntry;
 import com.mmc.flink.lidea.dto.LideaMethodReq;
-import com.mmc.flink.lidea.mapper.LideaAppResultsExtractor;
 import com.mmc.flink.lidea.mapper.LideaMethodResultsExtractor;
 import com.mmc.lidea.util.BytesUtils;
 import com.mmc.lidea.util.MD5Util;
 import com.mmc.lidea.util.StringUtil;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Scan;
-import org.apache.hadoop.hbase.filter.*;
+import org.apache.hadoop.hbase.filter.PrefixFilter;
 import org.springframework.data.hadoop.hbase.HbaseTemplate;
 import org.springframework.stereotype.Service;
 
@@ -39,11 +38,7 @@ public class LideaMethodDAO {
 
     public LideaMethodBO put(LideaMethodBO bo) {
 
-        Put put = new Put(makeRowKey(bo));
-        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("time"), BytesUtils.toBytes(bo.time));
-        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("appName"), BytesUtils.toBytes(bo.appName));
-        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("serviceName"), BytesUtils.toBytes(bo.serviceName));
-        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("methodName"), BytesUtils.toBytes(bo.methodName));
+        Put put = LideaMethodEntry.of(bo);
 
         return hbaseTemplate.execute(Const.LIDEA_METHOD_TABLE, (htable) -> {
 
@@ -54,18 +49,12 @@ public class LideaMethodDAO {
 
     }
 
-    private byte[] makeRowKey(LideaMethodBO bo) {
-        String base = StringUtil.format("{}{}", bo.appName, MD5Util.encrypt(bo.serviceName + bo.methodName));
-        return BytesUtils.toBytes(base);
-    }
-
     public List<LideaMethodBO> scan(LideaMethodReq req) {
-
 
         Scan scan = new Scan();
         scan.setCaching(50);
         scan.addFamily(Const.LIDEA_LOG_FEMILY);
-        scan.setFilter(new PrefixFilter(req.getAppName().getBytes()));
+        scan.setFilter(new PrefixFilter(BytesUtils.toBytes(MD5Util.encrypt(req.getAppName() + req.getServiceName()))));
 
         return hbaseTemplate.find(Const.LIDEA_METHOD_TABLE, scan, new LideaMethodResultsExtractor());
     }

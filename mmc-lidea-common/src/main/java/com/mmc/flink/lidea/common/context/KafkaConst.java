@@ -7,22 +7,14 @@
  * you entered into with Founder.
  *
  */
-package com.mmc.flink.lidea.bo;
 
-import lombok.Data;
-
-import java.io.Serializable;
+package com.mmc.flink.lidea.common.context;
 
 /**
  * @author Joey
- * @date 2019/8/6 18:36
+ * @date 2019/7/14 18:29
  */
-@Data
-public class LideaAppBO implements Serializable {
+public interface KafkaConst {
 
-    private static final long serialVersionUID = -2296577378425040440L;
-
-    public String appName;
-    public String time;
-
+    String TOPIC = "flink-kafka-jane";
 }

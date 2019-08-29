@@ -10,7 +10,7 @@
 package com.mmc.flink.lidea.dao;
 
 import com.alibaba.fastjson.JSON;
-import com.mmc.flink.lidea.bo.LideaMethodBO;
+import com.mmc.flink.lidea.common.bo.LideaMethodBO;
 import com.mmc.flink.lidea.dto.LideaMethodReq;
 import com.mmc.lidea.util.TimeUtil;
 import org.junit.FixMethodOrder;
@@ -24,8 +24,6 @@ import javax.annotation.Resource;
 
 import java.time.LocalDateTime;
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * @author Joey

@@ -2,12 +2,11 @@
 
 truncate 'LideaApp'
 
+truncate 'LideaService'
 
 truncate 'LideaMethod'
 
-
 truncate 'LideaLog'
-
 
 truncate 'LideaLogDetail'
 

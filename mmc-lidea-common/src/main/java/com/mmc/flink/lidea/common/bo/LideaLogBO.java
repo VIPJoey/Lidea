@@ -7,7 +7,7 @@
  * you entered into with Founder.
  *
  */
-package com.mmc.flink.lidea.bo;
+package com.mmc.flink.lidea.common.bo;
 
 import lombok.Data;
 

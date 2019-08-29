@@ -9,26 +9,18 @@
  */
 package com.mmc.lidea.stream.flink;
 
-import com.mmc.lidea.stream.context.Const;
+import com.mmc.flink.lidea.common.bo.LideaAppBO;
+import com.mmc.flink.lidea.common.entry.LideaAppEntry;
 import com.mmc.lidea.stream.model.LogContent;
-import com.mmc.lidea.stream.model.LogContentCount;
 import com.mmc.lidea.stream.util.LogAppNameUtil;
-import com.mmc.lidea.util.BytesUtils;
-import com.mmc.lidea.util.MD5Util;
-import com.mmc.lidea.util.StringUtil;
-import com.mmc.lidea.util.TimeUtil;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.configuration.Configuration;
 import org.apache.flink.streaming.api.functions.sink.RichSinkFunction;
 import org.apache.hadoop.hbase.HBaseConfiguration;
 import org.apache.hadoop.hbase.TableName;
 import org.apache.hadoop.hbase.client.*;
-import org.apache.hadoop.hbase.util.Bytes;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Objects;
 
 /**
  * @author Joey
@@ -83,20 +75,17 @@ public class LideaAppSinkFun extends RichSinkFunction<LogContent> {
         if (LogAppNameUtil.exists(bo.appName)) {
             return;
         } else {
-            LogAppNameUtil.put(bo.appName);;
+            LogAppNameUtil.put(bo.appName);
         }
 
-        Put put = new Put(makeRowKey(bo));
-        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("time"), BytesUtils.toBytes(bo.time));
-        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("appName"), BytesUtils.toBytes(bo.appName));
+        LideaAppBO lideaAppBO = new LideaAppBO();
+        lideaAppBO.appName = bo.appName;
+        lideaAppBO.time = bo.time;
+
+        Put put = LideaAppEntry.of(lideaAppBO);
 
         mutator.mutate(put);
 
     }
-
-    private byte[] makeRowKey(LogContent bo) {
-        return BytesUtils.toBytes(MD5Util.encrypt(bo.appName));
-    }
-
 
 }

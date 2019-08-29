@@ -9,13 +9,11 @@
  */
 package com.mmc.flink.lidea.service;
 
-import com.mmc.flink.lidea.bo.LideaAppBO;
-import com.mmc.flink.lidea.bo.LideaLogErrorDetailBO;
-import com.mmc.flink.lidea.bo.LideaMethodBO;
-import com.mmc.flink.lidea.dao.LideaAppDAO;
-import com.mmc.flink.lidea.dao.LideaLogDAO;
-import com.mmc.flink.lidea.dao.LideaLogErrorDAO;
-import com.mmc.flink.lidea.dao.LideaMethodDAO;
+import com.mmc.flink.lidea.common.bo.LideaAppBO;
+import com.mmc.flink.lidea.common.bo.LideaLogErrorDetailBO;
+import com.mmc.flink.lidea.common.bo.LideaMethodBO;
+import com.mmc.flink.lidea.common.bo.LideaServiceBO;
+import com.mmc.flink.lidea.dao.*;
 import com.mmc.flink.lidea.dto.*;
 import org.springframework.stereotype.Service;
 
@@ -42,6 +40,9 @@ public class LideaLogService {
 
     @Resource
     private LideaMethodDAO lideaMethodDAO;
+
+    @Resource
+    private LideaServiceDAO lideaServiceDAO;
 
     public LideaLogErrorDetailResp listError(LideaLogReq req) {
 
@@ -80,6 +81,18 @@ public class LideaLogService {
         return resp;
     }
 
+    public LideaServiceResp listServices(LideaServiceReq req) {
+
+        LideaServiceResp resp = new LideaServiceResp();
+
+        List<LideaServiceBO> data = lideaServiceDAO.scan(req);
+
+        resp.setAppName(req.getAppName());
+        resp.setData(data);
+
+        return resp;
+    }
+
     public LideaMethodResp listMethods(LideaMethodReq req) {
 
         LideaMethodResp resp = new LideaMethodResp();
@@ -92,4 +105,5 @@ public class LideaLogService {
 
         return resp;
     }
+
 }

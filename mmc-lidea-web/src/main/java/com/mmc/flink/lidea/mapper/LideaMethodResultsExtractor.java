@@ -9,9 +9,8 @@
  */
 package com.mmc.flink.lidea.mapper;
 
-import com.mmc.flink.lidea.bo.LideaAppBO;
-import com.mmc.flink.lidea.bo.LideaMethodBO;
-import com.mmc.flink.lidea.context.Const;
+import com.mmc.flink.lidea.common.bo.LideaMethodBO;
+import com.mmc.flink.lidea.common.context.Const;
 import com.mmc.lidea.util.BytesUtils;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;

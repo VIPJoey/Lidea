@@ -10,13 +10,13 @@
 package com.mmc.flink.lidea.dao;
 
 import com.alibaba.fastjson.JSON;
-import com.mmc.flink.lidea.bo.LideaLogBO;
-import com.mmc.flink.lidea.context.Const;
+import com.mmc.flink.lidea.common.bo.LideaLogBO;
+import com.mmc.flink.lidea.common.context.Const;
 import com.mmc.flink.lidea.dto.LideaLogReq;
 import com.mmc.flink.lidea.dto.LideaLogResp;
 import com.mmc.flink.lidea.mapper.LideaLogResultsExtractor;
-import com.mmc.lidea.util.BytesUtils;
 import com.mmc.flink.lidea.util.RowKeyUtils;
+import com.mmc.lidea.util.BytesUtils;
 import com.mmc.lidea.util.MD5Util;
 import com.mmc.lidea.util.StringUtil;
 import com.mmc.lidea.util.TimeUtil;
@@ -31,7 +31,6 @@ import org.springframework.data.hadoop.hbase.ResultsExtractor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;

@@ -9,7 +9,7 @@
  */
 package com.mmc.flink.lidea.mapper;
 
-import com.mmc.flink.lidea.common.bo.LideaAppBO;
+import com.mmc.flink.lidea.common.bo.LideaServiceBO;
 import com.mmc.flink.lidea.common.context.Const;
 import com.mmc.lidea.util.BytesUtils;
 import org.apache.hadoop.hbase.client.Result;
@@ -24,7 +24,7 @@ import java.util.List;
  * @author Joey
  * @date 2019/7/26 21:11
  */
-public class LideaAppResultsExtractor implements ResultsExtractor<List<LideaAppBO>> {
+public class LideaServiceResultsExtractor implements ResultsExtractor<List<LideaServiceBO>> {
 
 
     /**
@@ -36,23 +36,23 @@ public class LideaAppResultsExtractor implements ResultsExtractor<List<LideaAppB
      * @throws Exception if an Hbase exception is encountered
      */
     @Override
-    public List<LideaAppBO> extractData(ResultScanner results) throws Exception {
+    public List<LideaServiceBO> extractData(ResultScanner results) throws Exception {
 
 
-        List<LideaAppBO> rs = new ArrayList<>();
+        List<LideaServiceBO> rs = new ArrayList<>();
         for (Result result : results) {
-            LideaAppBO bo = map(result);
+            LideaServiceBO bo = map(result);
             rs.add(bo);
         }
 
         return rs;
     }
 
-    private LideaAppBO map(Result result) {
+    private LideaServiceBO map(Result result) {
 
-        LideaAppBO bo = new LideaAppBO();
-        bo.setTime(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("time"))));
+        LideaServiceBO bo = new LideaServiceBO();
         bo.setAppName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("appName"))));
+        bo.setServiceName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("serviceName"))));
         return bo;
 
     }

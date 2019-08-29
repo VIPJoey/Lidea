@@ -10,7 +10,8 @@
 package com.mmc.flink.lidea.dao;
 
 import com.alibaba.fastjson.JSON;
-import com.mmc.flink.lidea.common.bo.LideaLogErrorDetailBO;
+import com.mmc.flink.lidea.common.bo.LideaServiceBO;
+import com.mmc.flink.lidea.dto.LideaServiceReq;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,33 +21,49 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.*;
 
 /**
  * @author Joey
- * @date 2019/8/5 16:31
+ * @date 2019/8/29 14:32
  */
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
-public class LideaLogErrorDAOTest {
+public class LideaServiceDAOTest {
 
     @Resource
-    private
-    LideaLogErrorDAO lideaLogErrorDAO;
+    private LideaServiceDAO lideaServiceDAO;
 
     @Test
-    public void list() {
+    public void testPut() {
 
-        List<String> traceIds = new ArrayList<>();
-        traceIds.add("a3f2f2660d6c4a869626c878be92961d");
+        LideaServiceBO bo = new LideaServiceBO();
+        bo.appName = "cabinet-base-server";
+        bo.serviceName = "com.fcbox.edms.terminal.api.CabinetServiceFacade";
 
-        List<LideaLogErrorDetailBO> ret = lideaLogErrorDAO.list(traceIds);
-
+        bo = lideaServiceDAO.put(bo);
 
         System.out.println("==========================================================================================");
-        System.out.println(JSON.toJSONString(ret));
+        System.out.println(JSON.toJSONString(bo));
 
     }
+
+    @Test
+    public void scan() {
+
+        LideaServiceReq req = new LideaServiceReq();
+        req.setAppName("cabinet-base-server");
+
+        List<LideaServiceBO> list = lideaServiceDAO.scan(req);
+
+        System.out.println("==========================================================================================");
+        System.out.println(JSON.toJSONString(list));
+
+    }
+
+
+
 }

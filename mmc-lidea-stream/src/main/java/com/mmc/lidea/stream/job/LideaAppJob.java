@@ -11,14 +11,12 @@ package com.mmc.lidea.stream.job;
 
 import com.mmc.flink.lidea.common.context.KafkaConst;
 import com.mmc.lidea.stream.Bootstrap;
-import com.mmc.lidea.stream.flink.LideaMethodSinkFun;
+import com.mmc.lidea.stream.flink.LideaAppSinkFun;
 import com.mmc.lidea.stream.flink.LogContentFilter;
 import com.mmc.lidea.stream.flink.LogContentSplitter;
 import com.mmc.lidea.stream.flink.MessageWaterEmitter;
 import com.mmc.lidea.stream.model.LogContent;
-import com.mmc.lidea.stream.util.LogMethodNameUtil;
-import com.mmc.lidea.util.MD5Util;
-import com.mmc.lidea.util.StringUtil;
+import com.mmc.lidea.stream.util.LogAppNameUtil;
 import org.apache.flink.api.common.serialization.SimpleStringSchema;
 import org.apache.flink.api.java.utils.ParameterTool;
 import org.apache.flink.streaming.api.TimeCharacteristic;
@@ -34,7 +32,7 @@ import java.util.Properties;
  * @author Joey
  * @date 2019/8/4 16:39
  */
-public class LogMethodJob {
+public class LideaAppJob {
 
 
     public static void main(String[] args) throws Exception {
@@ -52,7 +50,7 @@ public class LogMethodJob {
 
         Properties props = new Properties();
         props.setProperty("bootstrap.servers", parameterTool.get("kafka.bootstrap.servers", "localhost:9092"));
-        props.setProperty("group.id", "lidea-method-group");
+        props.setProperty("group.id", "lidea-app-group");
 
         FlinkKafkaConsumer010<String> consumer =
                 new FlinkKafkaConsumer010<>(KafkaConst.TOPIC, new SimpleStringSchema(), props);
@@ -67,22 +65,17 @@ public class LogMethodJob {
         // 写入APP数据
         addBaseJob(mapStream);
 
-        env.execute("Record the method name.");
+        env.execute("Record the app name.");
 
     }
 
     private static void addBaseJob(DataStream<LogContent> mapStream) {
 
-        mapStream.filter(value -> {
+        mapStream.filter(l -> !LogAppNameUtil.exists(l.appName)).keyBy("traceId")
+                .timeWindow(Time.seconds(10))
+        ;
 
-            String key = MD5Util.encrypt(StringUtil.format("{}{}{}",
-                    value.appName, value.serviceName, value.methodName));
-
-            return !LogMethodNameUtil.exists(key);
-
-        }).keyBy("traceId").timeWindow(Time.seconds(10));
-
-        mapStream.addSink(new LideaMethodSinkFun());
+        mapStream.addSink(new LideaAppSinkFun());
     }
 
 }

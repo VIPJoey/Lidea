@@ -7,11 +7,13 @@
  * you entered into with Founder.
  *
  */
-package com.mmc.flink.lidea.context;
+package com.mmc.flink.lidea.common.context;
 
 import com.mmc.lidea.util.BytesUtils;
 
 /**
+ * 常量.
+ *
  * @author Joey
  * @date 2019/7/26 19:41
  */
@@ -45,4 +47,18 @@ public class Const {
      * LideaMethod表.
      */
     public static final String LIDEA_METHOD_TABLE = "LideaMethod";
+    /**
+     * LideaService表.
+     */
+    public static final String LIDEA_SERVICE_TABLE = "LideaService";
+
+    /**
+     * success record.
+     */
+    public static final int ERROR = 2;
+    /**
+     * error record.
+     */
+    public static final int SUCCESS = 1;
+
 }

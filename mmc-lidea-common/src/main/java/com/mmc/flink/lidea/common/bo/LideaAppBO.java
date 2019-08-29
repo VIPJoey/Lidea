@@ -8,13 +8,23 @@
  *
  */
 
-package com.mmc.lidea.stream.context;
+package com.mmc.flink.lidea.common.bo;
+
+import lombok.Data;
+
+import java.io.Serializable;
 
 /**
+ * 应用名称.
  * @author Joey
- * @date 2019/7/14 18:29
+ * @date 2019/8/6 18:36
  */
-public interface KafkaConst {
+@Data
+public class LideaAppBO implements Serializable {
 
-    String TOPIC = "flink-kafka-jane";
+    private static final long serialVersionUID = -2296577378425040440L;
+
+    public String appName;
+    public String time;
+
 }

@@ -9,12 +9,14 @@
  */
 package com.mmc.flink.lidea.dao;
 
-import com.mmc.flink.lidea.common.bo.LideaAppBO;
+import com.mmc.flink.lidea.common.bo.LideaServiceBO;
 import com.mmc.flink.lidea.common.context.Const;
-import com.mmc.flink.lidea.common.entry.LideaAppEntry;
-import com.mmc.flink.lidea.mapper.LideaAppResultsExtractor;
+import com.mmc.flink.lidea.common.entry.LideaServiceEntry;
+import com.mmc.flink.lidea.dto.LideaServiceReq;
+import com.mmc.flink.lidea.mapper.LideaServiceResultsExtractor;
 import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Scan;
+import org.apache.hadoop.hbase.filter.PrefixFilter;
 import org.springframework.data.hadoop.hbase.HbaseTemplate;
 import org.springframework.stereotype.Service;
 
@@ -23,33 +25,33 @@ import java.util.List;
 
 /**
  * @author Joey
- * @date 2019/8/6 18:29
+ * @date 2019/8/29 14:31
  */
-@Service("lideaAppDAO")
-public class LideaAppDAO {
+@Service("lideaServiceDAO")
+public class LideaServiceDAO {
 
     @Resource
     private HbaseTemplate hbaseTemplate;
 
-    public LideaAppBO put(LideaAppBO bo) {
+    public LideaServiceBO put(LideaServiceBO bo) {
 
-        Put put = LideaAppEntry.of(bo);
+        Put put = LideaServiceEntry.of(bo);
 
-        return hbaseTemplate.execute(Const.LIDEA_APP_TABLE, (htable) -> {
+        return hbaseTemplate.execute(Const.LIDEA_SERVICE_TABLE, (htable) -> {
 
             htable.put(put);
             return bo;
 
         });
-
     }
 
-    public List<LideaAppBO> scan() {
+    public List<LideaServiceBO> scan(LideaServiceReq req) {
 
         Scan scan = new Scan();
-        scan.setCaching(30);
+        scan.setCaching(50);
         scan.addFamily(Const.LIDEA_LOG_FEMILY);
+        scan.setFilter(new PrefixFilter(req.getAppName().getBytes()));
 
-        return hbaseTemplate.find(Const.LIDEA_APP_TABLE, scan, new LideaAppResultsExtractor());
+        return hbaseTemplate.find(Const.LIDEA_SERVICE_TABLE, scan, new LideaServiceResultsExtractor());
     }
 }

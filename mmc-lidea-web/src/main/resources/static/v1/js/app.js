@@ -22,12 +22,12 @@ function bindDataToGallery(resp) {
 
 }
 
-function openMethodPage(e) {
+function openServicePage(e) {
 
     let appName = $(e).attr("data-name");
     $("#txtAppName").val(appName);
 
-    window.location.href = "/lidea/methodList?appName=" + appName;
+    window.location.href = "/lidea/serviceList?appName=" + appName;
     //$("#frmMethodList").submit();
 }
 
