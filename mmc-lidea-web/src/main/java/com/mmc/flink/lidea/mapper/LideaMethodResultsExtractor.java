@@ -9,9 +9,8 @@
  */
 package com.mmc.flink.lidea.mapper;
 
-import com.mmc.flink.lidea.common.bo.LideaMethodBO;
-import com.mmc.flink.lidea.common.context.Const;
-import com.mmc.lidea.util.BytesUtils;
+import com.mmc.lidea.common.bo.LideaMethodBO;
+import com.mmc.lidea.common.entry.LideaMethodEntry;
 import org.apache.hadoop.hbase.client.Result;
 import org.apache.hadoop.hbase.client.ResultScanner;
 import org.springframework.data.hadoop.hbase.HbaseTemplate;
@@ -50,12 +49,6 @@ public class LideaMethodResultsExtractor implements ResultsExtractor<List<LideaM
 
     private LideaMethodBO map(Result result) {
 
-        LideaMethodBO bo = new LideaMethodBO();
-        bo.setTime(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("time"))));
-        bo.setAppName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("appName"))));
-        bo.setServiceName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("serviceName"))));
-        bo.setMethodName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("methodName"))));
-        return bo;
-
+        return LideaMethodEntry.map(result);
     }
 }

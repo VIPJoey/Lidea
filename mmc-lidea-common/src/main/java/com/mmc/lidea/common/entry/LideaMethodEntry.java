@@ -7,14 +7,15 @@
  * you entered into with Founder.
  *
  */
-package com.mmc.flink.lidea.common.entry;
+package com.mmc.lidea.common.entry;
 
-import com.mmc.flink.lidea.common.bo.LideaMethodBO;
-import com.mmc.flink.lidea.common.context.Const;
+import com.mmc.lidea.common.bo.LideaMethodBO;
+import com.mmc.lidea.common.context.Const;
 import com.mmc.lidea.util.BytesUtils;
 import com.mmc.lidea.util.MD5Util;
 import com.mmc.lidea.util.StringUtil;
 import org.apache.hadoop.hbase.client.Put;
+import org.apache.hadoop.hbase.client.Result;
 
 /**
  * @author Joey
@@ -29,13 +30,24 @@ public class LideaMethodEntry {
         put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("appName"), BytesUtils.toBytes(bo.appName));
         put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("serviceName"), BytesUtils.toBytes(bo.serviceName));
         put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("methodName"), BytesUtils.toBytes(bo.methodName));
+        put.addColumn(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("count"), BytesUtils.toBytes(bo.count));
 
         return put;
     }
 
-    private static byte[] makeRowKey(LideaMethodBO bo) {
+    public static byte[] makeRowKey(LideaMethodBO bo) {
         String base = StringUtil.format("{}{}", MD5Util.encrypt(bo.appName + bo.serviceName), bo.methodName);
         return BytesUtils.toBytes(base);
     }
 
+    public static LideaMethodBO map(Result result) {
+        LideaMethodBO bo = new LideaMethodBO();
+        bo.setTime(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("time"))));
+        bo.setAppName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("appName"))));
+        bo.setServiceName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("serviceName"))));
+        bo.setMethodName(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("methodName"))));
+        bo.setCount(BytesUtils.toString(result.getValue(Const.LIDEA_LOG_FEMILY, BytesUtils.toBytes("count"))));
+        return bo;
+
+    }
 }

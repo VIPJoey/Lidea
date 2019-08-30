@@ -9,10 +9,10 @@
  */
 package com.mmc.flink.lidea.service;
 
-import com.mmc.flink.lidea.common.bo.LideaAppBO;
-import com.mmc.flink.lidea.common.bo.LideaLogErrorDetailBO;
-import com.mmc.flink.lidea.common.bo.LideaMethodBO;
-import com.mmc.flink.lidea.common.bo.LideaServiceBO;
+import com.mmc.lidea.common.bo.LideaAppBO;
+import com.mmc.lidea.common.bo.LideaLogErrorDetailBO;
+import com.mmc.lidea.common.bo.LideaMethodBO;
+import com.mmc.lidea.common.bo.LideaServiceBO;
 import com.mmc.flink.lidea.dao.*;
 import com.mmc.flink.lidea.dto.*;
 import org.springframework.stereotype.Service;

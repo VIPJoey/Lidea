@@ -10,7 +10,7 @@
 package com.mmc.flink.lidea.dao;
 
 import com.alibaba.fastjson.JSON;
-import com.mmc.flink.lidea.common.bo.LideaServiceBO;
+import com.mmc.lidea.common.bo.LideaServiceBO;
 import com.mmc.flink.lidea.dto.LideaServiceReq;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -22,8 +22,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 import javax.annotation.Resource;
 
 import java.util.List;
-
-import static org.junit.Assert.*;
 
 /**
  * @author Joey

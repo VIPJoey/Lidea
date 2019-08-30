@@ -9,12 +9,9 @@
  */
 package com.mmc.lidea.stream.flink;
 
-import com.mmc.flink.lidea.common.bo.LideaAppBO;
-import com.mmc.flink.lidea.common.bo.LideaServiceBO;
-import com.mmc.flink.lidea.common.entry.LideaAppEntry;
-import com.mmc.flink.lidea.common.entry.LideaServiceEntry;
+import com.mmc.lidea.common.bo.LideaServiceBO;
+import com.mmc.lidea.common.entry.LideaServiceEntry;
 import com.mmc.lidea.stream.model.LogContent;
-import com.mmc.lidea.stream.util.LogAppNameUtil;
 import com.mmc.lidea.stream.util.LogServiceNameUtil;
 import com.mmc.lidea.util.MD5Util;
 import com.mmc.lidea.util.StringUtil;

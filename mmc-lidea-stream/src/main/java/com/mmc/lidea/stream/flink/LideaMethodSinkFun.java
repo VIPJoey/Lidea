@@ -9,11 +9,10 @@
  */
 package com.mmc.lidea.stream.flink;
 
-import com.mmc.flink.lidea.common.bo.LideaMethodBO;
-import com.mmc.flink.lidea.common.entry.LideaMethodEntry;
+import com.mmc.lidea.common.bo.LideaMethodBO;
+import com.mmc.lidea.common.entry.LideaMethodEntry;
 import com.mmc.lidea.stream.model.LogContent;
 import com.mmc.lidea.stream.util.LogMethodNameUtil;
-import com.mmc.lidea.util.BytesUtils;
 import com.mmc.lidea.util.MD5Util;
 import com.mmc.lidea.util.StringUtil;
 import org.apache.flink.api.java.utils.ParameterTool;
@@ -86,6 +85,7 @@ public class LideaMethodSinkFun extends RichSinkFunction<LogContent> {
         lideaMethodBO.appName = bo.appName;
         lideaMethodBO.serviceName = bo.serviceName;
         lideaMethodBO.methodName = bo.methodName;
+        lideaMethodBO.count = "0";
 
         Put put = LideaMethodEntry.of(lideaMethodBO);
 

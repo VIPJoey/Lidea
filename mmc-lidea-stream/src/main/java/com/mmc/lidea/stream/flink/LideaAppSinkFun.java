@@ -9,8 +9,8 @@
  */
 package com.mmc.lidea.stream.flink;
 
-import com.mmc.flink.lidea.common.bo.LideaAppBO;
-import com.mmc.flink.lidea.common.entry.LideaAppEntry;
+import com.mmc.lidea.common.bo.LideaAppBO;
+import com.mmc.lidea.common.entry.LideaAppEntry;
 import com.mmc.lidea.stream.model.LogContent;
 import com.mmc.lidea.stream.util.LogAppNameUtil;
 import org.apache.flink.api.java.utils.ParameterTool;

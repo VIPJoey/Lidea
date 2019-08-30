@@ -8,7 +8,7 @@
  *
  */
 
-package com.mmc.flink.lidea.common.context;
+package com.mmc.lidea.common.context;
 
 /**
  * @author Joey

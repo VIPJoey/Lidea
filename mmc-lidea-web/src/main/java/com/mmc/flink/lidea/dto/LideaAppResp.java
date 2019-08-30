@@ -9,7 +9,7 @@
  */
 package com.mmc.flink.lidea.dto;
 
-import com.mmc.flink.lidea.common.bo.LideaAppBO;
+import com.mmc.lidea.common.bo.LideaAppBO;
 import lombok.Data;
 
 import java.util.List;

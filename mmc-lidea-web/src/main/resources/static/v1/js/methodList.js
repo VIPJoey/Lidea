@@ -8,7 +8,7 @@ function bindDataToMethods(resp) {
             d.time,
             d.serviceName,
             Nora.Util.StringUtil.format("<span class='.opClass' onclick='showDetail(this)'  data-appName='{}' data-service='{}' data-method='{}'>{}</span>", d.appName, d.serviceName, d.methodName, d.methodName),
-            "100w"
+            d.count
         );
         $("#divContainer").append(html);
 

@@ -9,7 +9,7 @@
  */
 package com.mmc.lidea.stream.job;
 
-import com.mmc.flink.lidea.common.context.KafkaConst;
+import com.mmc.lidea.common.context.KafkaConst;
 import com.mmc.lidea.stream.flink.*;
 import com.mmc.lidea.stream.model.LogContent;
 import com.mmc.lidea.stream.model.LogContentCount;

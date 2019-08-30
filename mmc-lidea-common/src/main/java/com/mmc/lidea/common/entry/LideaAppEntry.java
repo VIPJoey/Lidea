@@ -7,10 +7,10 @@
  * you entered into with Founder.
  *
  */
-package com.mmc.flink.lidea.common.entry;
+package com.mmc.lidea.common.entry;
 
-import com.mmc.flink.lidea.common.bo.LideaAppBO;
-import com.mmc.flink.lidea.common.context.Const;
+import com.mmc.lidea.common.bo.LideaAppBO;
+import com.mmc.lidea.common.context.Const;
 import com.mmc.lidea.util.BytesUtils;
 import com.mmc.lidea.util.MD5Util;
 import org.apache.hadoop.hbase.client.Put;

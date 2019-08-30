@@ -9,8 +9,8 @@
  */
 package com.mmc.flink.lidea.dao;
 
-import com.mmc.flink.lidea.common.bo.LideaLogErrorDetailBO;
-import com.mmc.flink.lidea.common.context.Const;
+import com.mmc.lidea.common.bo.LideaLogErrorDetailBO;
+import com.mmc.lidea.common.context.Const;
 import com.mmc.flink.lidea.mapper.LideaLogResultsExtractor;
 import com.mmc.lidea.util.BytesUtils;
 import org.apache.hadoop.hbase.client.Get;

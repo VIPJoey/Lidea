@@ -7,7 +7,7 @@
  * you entered into with Founder.
  *
  */
-package com.mmc.flink.lidea.common.context;
+package com.mmc.lidea.common.context;
 
 import com.mmc.lidea.util.BytesUtils;
 

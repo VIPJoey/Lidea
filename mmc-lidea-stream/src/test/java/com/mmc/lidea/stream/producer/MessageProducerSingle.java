@@ -23,7 +23,7 @@ import static com.mmc.lidea.util.RandomUtil.getRandomNumberInRange;
  * @author Joey
  * @date 2019/7/14 18:22
  */
-public class MessageProducer {
+public class MessageProducerSingle {
 
     public static void main(String[] args) throws InterruptedException {
 
@@ -110,19 +110,19 @@ public class MessageProducer {
 
     private static String getMethodName() {
 
-//        return "getCabinetInfo";
-        return methods[getRandomNumberInRange(0, 4)];
+        return "getCabinetInfo";
+//        return methods[getRandomNumberInRange(0, 4)];
 
     }
 
     private static String getServerName() {
-//        return servers[getRandomNumberInRange(0, 0)];
-        return servers[getRandomNumberInRange(0, 3)];
+        return "cabinet-base-server";
+//        return servers[getRandomNumberInRange(0, 3)];
     }
 
     private static String getInterFaceName() {
-//        return interfaces[getRandomNumberInRange(0, 0)];
-        return interfaces[getRandomNumberInRange(0, 3)];
+        return "com.fcbox.edms.terminal.api.CabinetServiceFacade";
+//        return interfaces[getRandomNumberInRange(0, 3)];
     }
 
 

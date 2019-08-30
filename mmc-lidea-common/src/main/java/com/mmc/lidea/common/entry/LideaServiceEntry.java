@@ -7,10 +7,10 @@
  * you entered into with Founder.
  *
  */
-package com.mmc.flink.lidea.common.entry;
+package com.mmc.lidea.common.entry;
 
-import com.mmc.flink.lidea.common.bo.LideaServiceBO;
-import com.mmc.flink.lidea.common.context.Const;
+import com.mmc.lidea.common.bo.LideaServiceBO;
+import com.mmc.lidea.common.context.Const;
 import com.mmc.lidea.util.BytesUtils;
 import com.mmc.lidea.util.MD5Util;
 import com.mmc.lidea.util.StringUtil;

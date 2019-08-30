@@ -10,7 +10,7 @@
 package com.mmc.flink.lidea.dao;
 
 import com.alibaba.fastjson.JSON;
-import com.mmc.flink.lidea.common.bo.LideaAppBO;
+import com.mmc.lidea.common.bo.LideaAppBO;
 import com.mmc.lidea.util.TimeUtil;
 import org.junit.FixMethodOrder;
 import org.junit.Test;

@@ -9,7 +9,7 @@
  */
 package com.mmc.lidea.stream.flink;
 
-import com.mmc.lidea.stream.context.Const;
+import com.mmc.lidea.common.context.Const;
 import com.mmc.lidea.stream.model.LogContent;
 import org.apache.flink.api.common.functions.AggregateFunction;
 

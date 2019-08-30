@@ -10,7 +10,7 @@
 package com.mmc.flink.lidea.dao;
 
 import com.alibaba.fastjson.JSON;
-import com.mmc.flink.lidea.common.bo.LideaLogBO;
+import com.mmc.lidea.common.bo.LideaLogBO;
 import com.mmc.flink.lidea.dto.LideaLogReq;
 import com.mmc.flink.lidea.dto.LideaLogResp;
 import com.mmc.lidea.util.RandomUtil;

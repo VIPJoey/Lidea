@@ -10,8 +10,9 @@
 package com.mmc.flink.lidea.dao;
 
 import com.alibaba.fastjson.JSON;
-import com.mmc.flink.lidea.common.bo.LideaMethodBO;
+import com.mmc.lidea.common.bo.LideaMethodBO;
 import com.mmc.flink.lidea.dto.LideaMethodReq;
+import com.mmc.flink.lidea.dto.LideaMethodResp;
 import com.mmc.lidea.util.TimeUtil;
 import org.junit.FixMethodOrder;
 import org.junit.Test;
@@ -45,6 +46,7 @@ public class LideaMethodDAOTest {
         bo.setAppName("cabinet-base-server");
         bo.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
         bo.setMethodName("getCabinetInfo");
+        bo.setCount("100");
 
         bo = lideaMethodDAO.put(bo);
 
@@ -63,6 +65,22 @@ public class LideaMethodDAOTest {
 
         System.out.println("==========================================================================================");
         System.out.println(JSON.toJSONString(list));
+
+    }
+
+    @Test
+    public void testGet() {
+
+        LideaMethodReq req = new LideaMethodReq();
+
+        req.setAppName("cabinet-base-server");
+        req.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
+        req.setMethodName("getCabinetInfo");
+
+
+        LideaMethodResp resp = lideaMethodDAO.get(req);
+        System.out.println("==========================================================================================");
+        System.out.println(JSON.toJSONString(resp));
 
     }
 }

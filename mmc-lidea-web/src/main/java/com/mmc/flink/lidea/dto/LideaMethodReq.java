@@ -26,6 +26,9 @@ public class LideaMethodReq {
      * 接口名称.
      */
     private String serviceName;
-
+    /**
+     * 方法名称.
+     */
+    private String methodName;
 
 }

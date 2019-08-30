@@ -5,6 +5,6 @@ create 'LideaService', { NAME => 'S', TTL => 864000}
 
 create 'LideaMethod', { NAME => 'S', TTL => 864000}
 
-create 'LideaLog', { NAME => 'S', TTL => 864000}
+create 'LideaLog', { NAME => 'S', TTL => 259200}
 
-create 'LideaLogDetail', { NAME => 'S', TTL => 864000}
+create 'LideaLogDetail', { NAME => 'S', TTL => 259200}

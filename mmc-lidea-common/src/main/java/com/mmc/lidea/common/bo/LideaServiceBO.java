@@ -7,24 +7,23 @@
  * you entered into with Founder.
  *
  */
-
-package com.mmc.flink.lidea.common.bo;
+package com.mmc.lidea.common.bo;
 
 import lombok.Data;
 
 import java.io.Serializable;
 
 /**
- * 应用名称.
+ * 接口名称.
  * @author Joey
- * @date 2019/8/6 18:36
+ * @date 2019/8/29 14:26
  */
 @Data
-public class LideaAppBO implements Serializable {
+public class LideaServiceBO implements Serializable {
 
-    private static final long serialVersionUID = -2296577378425040440L;
+    private static final long serialVersionUID = -4111289278389251339L;
 
     public String appName;
-    public String time;
+    public String serviceName;
 
 }
