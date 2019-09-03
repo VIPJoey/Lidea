@@ -52,7 +52,7 @@ public class LideaServiceJob {
 
         Properties props = new Properties();
         props.setProperty("bootstrap.servers", parameterTool.get("kafka.bootstrap.servers", "localhost:9092"));
-        props.setProperty("group.id", "lidea-app-group");
+        props.setProperty("group.id", "lidea-service-group");
 
         FlinkKafkaConsumer010<String> consumer =
                 new FlinkKafkaConsumer010<>(KafkaConst.TOPIC, new SimpleStringSchema(), props);

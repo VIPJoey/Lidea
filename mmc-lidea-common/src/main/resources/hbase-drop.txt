@@ -1,0 +1,26 @@
+
+
+disable 'LideaApp'
+
+disable 'LideaService'
+
+disable 'LideaMethod'
+
+disable 'LideaLog'
+
+disable 'LideaLogDetail'
+
+drop 'LideaApp'
+
+drop 'LideaService'
+
+drop 'LideaMethod'
+
+drop 'LideaLog'
+
+drop 'LideaLogDetail'
+
+
+
+
+
