@@ -133,11 +133,14 @@ function bindEventToException(mychart, resp) {
         if (mychart.containPixel('grid', pointInPixel)) {
             let xIndex = mychart.convertFromPixel({seriesIndex: 0}, [params.offsetX, params.offsetY])[0];
             /*事件处理代码书写位置*/
-            console.log(88 + ", " + xIndex);
             let op = mychart.getOption();
 
             let timeStr = op.xAxis[0].data[xIndex];
             let traceIds = resp.data[xIndex].traceIds;
+
+            if (null == traceIds || "" === traceIds) {
+                return
+            }
 
             let time = new Date(timeStr).getTime();
             // let url = Nora.Util.StringUtil.format("/lidea/errorList?from={}&to={}&size={}", time, time, 100);
