@@ -106,4 +106,8 @@ public class LideaLogService {
         return resp;
     }
 
+    public LideaLogResp listAccess(LideaLogReq req) {
+
+        return lideaLogDAO.scan(req);
+    }
 }

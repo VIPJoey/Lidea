@@ -18,6 +18,7 @@ import org.apache.hadoop.hbase.client.Put;
 import org.apache.hadoop.hbase.client.Result;
 
 /**
+ * 方法实体类.
  * @author Joey
  * @date 2019/8/29 15:01
  */

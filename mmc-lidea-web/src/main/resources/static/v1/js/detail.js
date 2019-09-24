@@ -87,7 +87,7 @@ function bindDataToAccess(resp) {
     let yAxis = [];
 
     // we need to revers it
-    for (let i = resp.data.length - 1; i > 0; i--) {
+    for (let i = resp.data.length - 1; i >= 0; i--) {
         let d = resp.data[i];
         xAxis.push(d.time);
         yAxis.push(d.count);
@@ -111,7 +111,7 @@ function bindDataToException(resp) {
     let yAxis = [];
 
     // we need to revers it
-    for (let i = resp.data.length - 1; i > 0; i--) {
+    for (let i = resp.data.length - 1; i >= 0; i--) {
         let d = resp.data[i];
         xAxis.push(d.time);
         yAxis.push(d.exception);
@@ -172,7 +172,7 @@ function bindDataToAvg(resp) {
     let yAxis = [];
 
     // we need to revers it
-    for (let i = resp.data.length - 1; i > 0; i--) {
+    for (let i = resp.data.length - 1; i >= 0; i--) {
         let d = resp.data[i];
         xAxis.push(d.time);
         yAxis.push(d.avg);

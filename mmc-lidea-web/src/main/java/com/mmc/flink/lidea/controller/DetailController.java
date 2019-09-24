@@ -9,9 +9,9 @@
  */
 package com.mmc.flink.lidea.controller;
 
-import com.mmc.flink.lidea.dao.LideaLogDAO;
 import com.mmc.flink.lidea.dto.*;
 import com.mmc.flink.lidea.service.LideaLogService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,10 +23,8 @@ import javax.annotation.Resource;
  */
 @RestController
 @RequestMapping("/lidea/detail/")
+@Slf4j
 public class DetailController {
-
-    @Resource
-    private LideaLogDAO lideaLogDAO;
 
     @Resource
     private LideaLogService lidiaLogService;
@@ -65,8 +63,8 @@ public class DetailController {
             throw new RuntimeException("req can't be null.");
         }
 
-        LideaLogResp data = lideaLogDAO.scan(req);
 
+        LideaLogResp data = lidiaLogService.listAccess(req);
 
         return ResultDTO.handleSuccess("SUCESS", data);
     }
