@@ -43,8 +43,8 @@ public class LideaMethodDAOTest {
 
         LideaMethodBO bo = new LideaMethodBO();
         bo.setTime(TimeUtil.dateToString(LocalDateTime.now()));
-        bo.setAppName("cabinet-base-server");
-        bo.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
+        bo.setAppName("demo");
+        bo.setServiceName("com.demo.api.CabinetServiceFacade");
         bo.setMethodName("getCabinetInfo");
         bo.setCount("100");
 
@@ -58,8 +58,8 @@ public class LideaMethodDAOTest {
     public void scan() {
 
         LideaMethodReq req = new LideaMethodReq();
-        req.setAppName("cabinet-base-server");
-        req.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
+        req.setAppName("demo");
+        req.setServiceName("com.demo.api.CabinetServiceFacade");
 
         List<LideaMethodBO> list = lideaMethodDAO.scan(req);
 
@@ -73,8 +73,8 @@ public class LideaMethodDAOTest {
 
         LideaMethodReq req = new LideaMethodReq();
 
-        req.setAppName("cabinet-base-server");
-        req.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
+        req.setAppName("demo");
+        req.setServiceName("com.demo.api.CabinetServiceFacade");
         req.setMethodName("getCabinetInfo");
 
 

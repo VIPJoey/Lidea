@@ -27,8 +27,8 @@ public class LideaLogServiceTest {
     public void testList() {
 
         LideaLogReq req = new LideaLogReq();
-        req.setAppName("cabinet-base-server");
-        req.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
+        req.setAppName("demo");
+        req.setServiceName("com.demo.api.CabinetServiceFacade");
         req.setMethodName("getCabinetInfo");
         req.setFrom(TimeUtil.stringToLong("2019-08-06 10:09:30"));
         req.setTo(TimeUtil.stringToLong("2019-08-06 10:09:30"));
@@ -43,8 +43,8 @@ public class LideaLogServiceTest {
     public void testList1() {
 
         LideaLogReq req = new LideaLogReq();
-        req.setAppName("cabinet-base-server");
-        req.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
+        req.setAppName("demo");
+        req.setServiceName("com.demo.api.CabinetServiceFacade");
         req.setMethodName("getCabinetInfo");
         req.setFrom(1565057370000L);
         req.setTo(1565057370000L);
@@ -60,8 +60,8 @@ public class LideaLogServiceTest {
     public void listMethods() {
 
         LideaMethodReq req = new LideaMethodReq();
-        req.setAppName("cabinet-base-server");
-        req.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
+        req.setAppName("demo");
+        req.setServiceName("com.demo.api.CabinetServiceFacade");
 
         LideaMethodResp resp = lideaLogService.listMethods(req);
 

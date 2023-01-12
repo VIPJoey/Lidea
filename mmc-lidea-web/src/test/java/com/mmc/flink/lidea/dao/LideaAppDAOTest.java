@@ -40,7 +40,7 @@ public class LideaAppDAOTest {
     public void testPut() {
 
         LideaAppBO bo = new LideaAppBO();
-        bo.appName = "cabinet-base-server";
+        bo.appName = "demo";
         bo.time = TimeUtil.dateToString(LocalDateTime.now());
 
         bo = lideaAppDAO.put(bo);

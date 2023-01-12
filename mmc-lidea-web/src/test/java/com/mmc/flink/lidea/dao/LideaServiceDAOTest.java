@@ -39,8 +39,8 @@ public class LideaServiceDAOTest {
     public void testPut() {
 
         LideaServiceBO bo = new LideaServiceBO();
-        bo.appName = "cabinet-base-server";
-        bo.serviceName = "com.fcbox.edms.terminal.api.CabinetServiceFacade";
+        bo.appName = "demo";
+        bo.serviceName = "com.demo.api.CabinetServiceFacade";
 
         bo = lideaServiceDAO.put(bo);
 
@@ -53,7 +53,7 @@ public class LideaServiceDAOTest {
     public void scan() {
 
         LideaServiceReq req = new LideaServiceReq();
-        req.setAppName("cabinet-base-server");
+        req.setAppName("demo");
 
         List<LideaServiceBO> list = lideaServiceDAO.scan(req);
 

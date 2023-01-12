@@ -73,13 +73,13 @@ public class MessageProducerSingle {
     };
 
     private static String[] interfaces = new String[]{
-            "com.fcbox.edms.terminal.api.CabinetServiceFacade",
-            "com.fcbox.edms.terminal.api.CabinetServiceAdvanceFacade",
-            "com.fcbox.edms.terminal.api.CabinetNetCodeFacade",
-            "com.fcbox.edms.terminal.api.CabinetServiceAllSlowFacade"
+            "com.demo.api.CabinetServiceFacade",
+            "com.demo.api.CabinetServiceAdvanceFacade",
+            "com.demo.api.CabinetNetCodeFacade",
+            "com.demo.api.CabinetServiceAllSlowFacade"
     };
     private static String[] servers = new String[]{
-            "cabinet-base-server",
+            "demo",
             "cabinet-conf-server",
             "cabinet-heart-server",
             "cabinet-control-server"
@@ -116,12 +116,12 @@ public class MessageProducerSingle {
     }
 
     private static String getServerName() {
-        return "cabinet-base-server";
+        return "demo";
 //        return servers[getRandomNumberInRange(0, 3)];
     }
 
     private static String getInterFaceName() {
-        return "com.fcbox.edms.terminal.api.CabinetServiceFacade";
+        return "com.demo.api.CabinetServiceFacade";
 //        return interfaces[getRandomNumberInRange(0, 3)];
     }
 

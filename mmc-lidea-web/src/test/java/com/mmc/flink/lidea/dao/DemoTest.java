@@ -36,8 +36,8 @@ import java.util.UUID;
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
 public class DemoTest {
 
-    private final String APP_NAME = "cabinet-base-server";
-    private final String SERVICE_NAME = "com.fcbox.edms.terminal.api.CabinetServiceFacade";
+    private final String APP_NAME = "demo";
+    private final String SERVICE_NAME = "com.demo.api.CabinetServiceFacade";
     private final String METHOD_NAME = "getCabinetInfo";
 
     @Resource

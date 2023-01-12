@@ -73,13 +73,13 @@ public class MessageProducer {
     };
 
     private static String[] interfaces = new String[]{
-            "com.fcbox.edms.terminal.api.CabinetServiceFacade",
-            "com.fcbox.edms.terminal.api.CabinetServiceAdvanceFacade",
-            "com.fcbox.edms.terminal.api.CabinetNetCodeFacade",
-            "com.fcbox.edms.terminal.api.CabinetServiceAllSlowFacade"
+            "com.demo.api.CabinetServiceFacade",
+            "com.demo.api.CabinetServiceAdvanceFacade",
+            "com.demo.api.CabinetNetCodeFacade",
+            "com.demo.api.CabinetServiceAllSlowFacade"
     };
     private static String[] servers = new String[]{
-            "cabinet-base-server",
+            "demo",
             "cabinet-conf-server",
             "cabinet-heart-server",
             "cabinet-control-server"

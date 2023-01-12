@@ -49,8 +49,8 @@ public class LideaLogDAOBatchTest {
             String time = TimeUtil.dateToString(LocalDateTime.now().minusDays(RandomUtil.getRandomNumberInRange(0, 2)));
             System.out.println("time: " + time);
             bo.setTime(time);
-            bo.setAppName("cabinet-base-server");
-            bo.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
+            bo.setAppName("demo");
+            bo.setServiceName("com.demo.api.CabinetServiceFacade");
             bo.setMethodName("getCabinetInfo");
             bo.setCount(RandomUtil.getRandomNumberInRange(1, 100));
             bo.setAvg(RandomUtil.getRandomNumberInRange(100, 999));
@@ -71,8 +71,8 @@ public class LideaLogDAOBatchTest {
 
         LideaLogReq req = new LideaLogReq();
 
-        req.setAppName("cabinet-base-server");
-        req.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
+        req.setAppName("demo");
+        req.setServiceName("com.demo.api.CabinetServiceFacade");
         req.setMethodName("getCabinetInfo");
 
         req.setFrom(TimeUtil.stringToLong("2019-09-20 00:00:00"));
@@ -91,8 +91,8 @@ public class LideaLogDAOBatchTest {
 
         LideaLogReq req = new LideaLogReq();
 
-        req.setAppName("cabinet-base-server");
-        req.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
+        req.setAppName("demo");
+        req.setServiceName("com.demo.api.CabinetServiceFacade");
         req.setMethodName("getCabinetInfo");
 
         System.out.println(TimeUtil.timestampToString(1565266170000L, TimeUtil.yyyyMMddHHmmssSSS));

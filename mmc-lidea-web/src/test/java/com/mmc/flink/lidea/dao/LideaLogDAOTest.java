@@ -44,8 +44,8 @@ public class LideaLogDAOTest {
         // 测试插入一条记录
         LideaLogBO bo = new LideaLogBO();
         bo.setTime(TimeUtil.dateToString(LocalDateTime.now()));
-        bo.setAppName("cabinet-base-server");
-        bo.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
+        bo.setAppName("demo");
+        bo.setServiceName("com.demo.api.CabinetServiceFacade");
         bo.setMethodName("getCabinetInfo");
         bo.setCount(RandomUtil.getRandomNumberInRange(1, 100));
         bo.setAvg(RandomUtil.getRandomNumberInRange(100, 999));
@@ -63,8 +63,8 @@ public class LideaLogDAOTest {
 
         LideaLogReq req = new LideaLogReq();
 
-        req.setAppName("cabinet-base-server");
-        req.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
+        req.setAppName("demo");
+        req.setServiceName("com.demo.api.CabinetServiceFacade");
         req.setMethodName("getCabinetInfo");
 
         req.setFrom(TimeUtil.stringToLong("2019-07-20 00:00:00"));
@@ -80,8 +80,8 @@ public class LideaLogDAOTest {
 
         LideaLogReq req = new LideaLogReq();
 
-        req.setAppName("cabinet-base-server");
-        req.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
+        req.setAppName("demo");
+        req.setServiceName("com.demo.api.CabinetServiceFacade");
         req.setMethodName("getCabinetInfo");
 
         req.setFrom(TimeUtil.stringToLong("2019-08-05 14:26:39"));
@@ -98,8 +98,8 @@ public class LideaLogDAOTest {
 
         LideaLogReq req = new LideaLogReq();
 
-        req.setAppName("cabinet-base-server");
-        req.setServiceName("com.fcbox.edms.terminal.api.CabinetServiceFacade");
+        req.setAppName("demo");
+        req.setServiceName("com.demo.api.CabinetServiceFacade");
         req.setMethodName("getCabinetInfo");
 
         System.out.println(TimeUtil.timestampToString(1565266170000L, TimeUtil.yyyyMMddHHmmssSSS));
